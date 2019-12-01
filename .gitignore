@@ -32,3 +32,4 @@ build/
 
 ### ignore yml file ###
 application-realrds.yml
+/.metadata/
