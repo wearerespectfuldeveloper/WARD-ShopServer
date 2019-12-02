@@ -1,5 +1,6 @@
 package com.ward.wardshop.common.config;
 
+import com.ward.wardshop.common.audit.AuditorAwareImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -16,14 +17,6 @@ public class AuditingConfig {
 
     @Bean
     public AuditorAware<String> auditorProvider() {
-        return () -> {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-            if (Objects.nonNull(authentication)) {
-                return Optional.of(authentication.getName());
-            } else {
-                return Optional.of("Anonymous");
-            }
-        };
+        return new AuditorAwareImpl();
     }
 }
