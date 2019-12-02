@@ -36,16 +36,7 @@ spring.profiles: prod
 
 spring:
   profiles:
-    include:
-      - realrds
-
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-
-    hibernate:
-      ddl-auto: none
-
-    open-in-view: false
+    include: realrds  # 데이터베이스 연결 설정 파일
 
 logging:
   level:
@@ -53,3 +44,6 @@ logging:
       hibernate:
         SQL: warn
         type: warn
+
+server:
+  port: 80
