@@ -1,4 +1,4 @@
-package com.ward.wardshop.security;
+package com.ward.wardshop.common.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
