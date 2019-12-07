@@ -1,6 +1,6 @@
 package com.ward.wardshop.goods.service;
 
-import com.ward.wardshop.goods.domain.category.MainCategory;
+import com.ward.wardshop.goods.domain.MainCategory;
 import com.ward.wardshop.goods.repository.MainCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

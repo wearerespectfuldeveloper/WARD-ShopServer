@@ -1,4 +1,4 @@
-package com.ward.wardshop.goods.domain.category;
+package com.ward.wardshop.goods.domain;
 
 import com.ward.wardshop.common.audit.BaseEntity;
 import lombok.Builder;
