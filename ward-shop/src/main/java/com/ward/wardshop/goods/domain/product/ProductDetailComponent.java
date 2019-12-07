@@ -1,9 +1,11 @@
 package com.ward.wardshop.goods.domain.product;
 
+import com.ward.wardshop.common.audit.BaseEntity;
+
 import javax.persistence.*;
 
 @Entity
-public class ProductDetailComponent {
+public class ProductDetailComponent extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
