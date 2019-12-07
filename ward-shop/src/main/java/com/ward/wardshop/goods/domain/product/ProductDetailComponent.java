@@ -1,4 +1,4 @@
-package com.ward.wardshop.goods.domain;
+package com.ward.wardshop.goods.domain.product;
 
 import javax.persistence.*;
 
