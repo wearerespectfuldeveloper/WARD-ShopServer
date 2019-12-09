@@ -1,21 +1,21 @@
 package com.ward.wardshop.goods.service;
 
-import com.ward.wardshop.goods.domain.MainCategory;
-import com.ward.wardshop.goods.repository.MainCategoryRepository;
+import com.ward.wardshop.goods.domain.Category;
+import com.ward.wardshop.goods.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MainCategoryService {
+public class CategoryService {
 
-    private final MainCategoryRepository mainCategoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public Long createCategory(String categoryName) {
-        MainCategory savedCategory =
-                mainCategoryRepository.save(MainCategory.builder().name(categoryName).build());
+        Category savedCategory =
+                categoryRepository.save(Category.builder().name(categoryName).build());
 
         return savedCategory.getIdx();
     }

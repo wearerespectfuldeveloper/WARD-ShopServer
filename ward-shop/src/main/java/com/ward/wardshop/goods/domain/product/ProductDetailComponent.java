@@ -4,6 +4,9 @@ import com.ward.wardshop.common.audit.BaseEntity;
 
 import javax.persistence.*;
 
+/**
+ * URL : www.comsdaf.com
+ */
 @Entity
 public class ProductDetailComponent extends BaseEntity {
 

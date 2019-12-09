@@ -1,6 +1,6 @@
 package com.ward.wardshop.goods.api;
 
-import com.ward.wardshop.goods.service.MainCategoryService;
+import com.ward.wardshop.goods.service.CategoryService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/maincategories")
 @RequiredArgsConstructor
-public class MainCategoryController {
+public class CategoryController {
 
-    private final MainCategoryService mainCategoryService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public Result createCategory(@RequestBody CategoryDto dto) {
-        Long categoryIdx = mainCategoryService.createCategory(dto.categoryName);
+        Long categoryIdx = categoryService.createCategory(dto.categoryName);
 
         Result result = new Result();
         result.setIdx(categoryIdx);

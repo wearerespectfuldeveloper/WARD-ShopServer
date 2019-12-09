@@ -1,13 +1,11 @@
 package com.ward.wardshop.goods.domain.product;
 
 import com.ward.wardshop.common.audit.BaseEntity;
+import com.ward.wardshop.goods.domain.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -27,4 +25,8 @@ public class Product extends BaseEntity {
     private Integer stockQuantity;
 
     private String imagePath;
+
+    @ManyToOne
+    @JoinColumn(name = "category_idx")
+    private Category category;
 }

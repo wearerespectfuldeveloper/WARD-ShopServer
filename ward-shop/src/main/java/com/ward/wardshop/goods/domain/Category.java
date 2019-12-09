@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
-public class MainCategory extends BaseEntity {
+public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +18,15 @@ public class MainCategory extends BaseEntity {
 
     private String name;
 
+    @Column(nullable = false)
+    private Long group_idx;
+
+    private Integer level;
+
+    private Integer ordering;
+
     @Builder
-    public MainCategory(String name) {
+    public Category(String name) {
         this.name = name;
     }
 }

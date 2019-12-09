@@ -1,7 +1,7 @@
 package com.ward.wardshop.goods.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ward.wardshop.goods.service.MainCategoryService;
+import com.ward.wardshop.goods.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,17 +18,16 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Slf4j
-@WebMvcTest(MainCategoryController.class)
+@WebMvcTest(CategoryController.class)
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("local")
-class MainCategoryControllerTest {
+class CategoryControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -37,7 +36,7 @@ class MainCategoryControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private MainCategoryService mainCategoryService;
+    private CategoryService categoryService;
 
     @Test
     @DisplayName("메인 카테고리 등록 테스트")
@@ -47,7 +46,7 @@ class MainCategoryControllerTest {
         param.put("categoryName", "testCategory");
 
         given(
-                mainCategoryService.createCategory(param.get("categoryName"))
+                categoryService.createCategory(param.get("categoryName"))
         ).willReturn(1L);
 
         //when
