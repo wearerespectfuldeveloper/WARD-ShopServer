@@ -26,7 +26,10 @@ public class Product extends BaseEntity {
 
     private String imagePath;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
+    private ProductStatus productStatus = ProductStatus.PENDING;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_idx")
     private Category category;
 }
