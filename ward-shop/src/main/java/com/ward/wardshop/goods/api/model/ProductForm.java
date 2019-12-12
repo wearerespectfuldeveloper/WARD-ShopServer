@@ -1,13 +1,13 @@
 package com.ward.wardshop.goods.api.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
 @ToString(exclude = {"imgFile"})
 @NoArgsConstructor
 public class ProductForm {
