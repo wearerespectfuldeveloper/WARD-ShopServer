@@ -51,7 +51,7 @@ class CategoryControllerTest {
 
         //when
         final ResultActions actions = mvc.perform(
-                post("/maincategories")
+                post("/categories")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsBytes(param))
         ).andDo(print());
