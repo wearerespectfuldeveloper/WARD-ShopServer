@@ -32,11 +32,22 @@ logging:
         type: trace
 
 ---
-spring.profiles: prod
-
 spring:
-  profiles:
-    include: realrds  # 데이터베이스 연결 설정 파일
+  profiles: prod
+
+  datasource:
+    url: jdbc:mysql://35.201.128.131:3306/wardshop
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+
+    hibernate:
+      ddl-auto: update
+
+    open-in-view: false
 
 logging:
   level:
