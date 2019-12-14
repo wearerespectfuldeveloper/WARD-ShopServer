@@ -2,6 +2,7 @@ package com.ward.wardshop.goods.domain.product;
 
 import com.ward.wardshop.common.audit.BaseEntity;
 import com.ward.wardshop.goods.domain.Category;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +20,7 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    private String desc;
+    private String description;
 
     private Integer price;
 
@@ -33,4 +34,21 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_idx")
     private Category category;
+
+    @Builder
+    public Product(String name,
+                   String description,
+                   Integer price,
+                   Integer stockQuantity,
+                   String imagePath,
+                   ProductStatus productStatus,
+                   Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.imagePath = imagePath;
+        this.productStatus = productStatus;
+        this.category = category;
+    }
 }
