@@ -10,7 +10,7 @@ public class SimpleController {
 
     @GetMapping("/simple")
     public String simple() {
-        log.info("jenkins-test");
+        log.info("jenkins-test-2");
         return "Hello, This is Ward Server";
     }
 }
