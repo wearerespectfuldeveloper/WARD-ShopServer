@@ -14,22 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryController {
 
+    //TODO 카테고리의 조회 권한을 제외한 생성, 수정, 삭제는 관리자에 한에서만 접근하도록 변경해야한다.
+
     private final CategoryService categoryService;
 
     @PostMapping
-    public Result createCategory(@RequestBody CategoryDto dto) {
-        Long categoryIdx = categoryService.createCategory(dto.categoryName);
+    public Result createCategory(@RequestBody String categoryName) {
+        Long categoryIdx = categoryService.createCategory(categoryName);
 
         Result result = new Result();
         result.setIdx(categoryIdx);
 
         return result;
-    }
-
-    @NoArgsConstructor
-    @Data
-    private static class CategoryDto {
-        private String categoryName;
     }
 
     @NoArgsConstructor

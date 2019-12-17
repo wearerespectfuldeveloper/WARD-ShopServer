@@ -12,11 +12,25 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    /**
+     * 카테고리 생성은 항상 가장 아래의 루트 카테고리로 생성한다.
+     *
+     * @param categoryName
+     * @return
+     */
     @Transactional
     public Long createCategory(String categoryName) {
-        Category savedCategory =
-                categoryRepository.save(Category.builder().name(categoryName).build());
+        Integer lastOrdering = categoryRepository.findLastOrdering();
 
-        return savedCategory.getIdx();
+        Category newCategory = Category.builder()
+                .name(categoryName)
+                .level(1)
+                .ordering(lastOrdering + 1)
+                .build();
+
+        categoryRepository.save(newCategory);
+
+        newCategory.changeGroup(newCategory.getIdx());
+        return newCategory.getIdx();
     }
 }
