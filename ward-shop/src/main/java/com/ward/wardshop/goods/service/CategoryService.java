@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private static final Integer ROOT_LEVEL = 1;
+    private static final Integer FIRST_ORDER = 1;
 
     /**
      * 카테고리 생성은 항상 가장 아래의 루트 카테고리로 생성한다.
@@ -20,12 +22,12 @@ public class CategoryService {
      */
     @Transactional
     public Long createCategory(String categoryName) {
-        Integer lastOrdering = categoryRepository.findLastOrdering();
+        Integer newOrder = categoryRepository.findLastOrdering().orElse(FIRST_ORDER);
 
         Category newCategory = Category.builder()
                 .name(categoryName)
-                .level(1)
-                .ordering(lastOrdering + 1)
+                .level(ROOT_LEVEL)
+                .ordering(newOrder)
                 .build();
 
         categoryRepository.save(newCategory);
