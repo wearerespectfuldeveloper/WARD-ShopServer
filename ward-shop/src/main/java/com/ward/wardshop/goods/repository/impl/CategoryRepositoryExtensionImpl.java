@@ -4,6 +4,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ward.wardshop.goods.repository.CategoryRepositoryExtension;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 import static com.ward.wardshop.goods.domain.QCategory.category;
 
 @RequiredArgsConstructor
@@ -11,9 +13,10 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
     private final JPAQueryFactory query;
 
     @Override
-    public Integer findLastOrdering() {
-        return query.select(category.ordering.max())
-                .from(category)
-                .fetchOne();
+    public Optional<Integer> findLastOrdering() {
+        return Optional.ofNullable(
+                query.select(category.ordering.max())
+                        .from(category)
+                        .fetchOne());
     }
 }
