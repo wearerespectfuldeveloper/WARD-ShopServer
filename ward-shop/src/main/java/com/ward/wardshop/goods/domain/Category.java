@@ -18,7 +18,6 @@ public class Category extends BaseEntity {
 
     private String name;
 
-    @Column(nullable = false)
     private Long group_idx;
 
     private Integer level;
@@ -26,7 +25,14 @@ public class Category extends BaseEntity {
     private Integer ordering;
 
     @Builder
-    public Category(String name) {
+    public Category(String name, Long group_idx, Integer level, Integer ordering) {
         this.name = name;
+        this.group_idx = group_idx;
+        this.level = level;
+        this.ordering = ordering;
+    }
+
+    public void changeGroup(Long group_idx) {
+        this.group_idx = group_idx;
     }
 }
