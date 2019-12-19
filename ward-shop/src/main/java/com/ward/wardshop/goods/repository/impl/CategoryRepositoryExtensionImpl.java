@@ -13,10 +13,11 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
     private final JPAQueryFactory query;
 
     @Override
-    public Optional<Integer> findLastOrdering() {
+    public Optional<Integer> findLastOrderingInRoot() {
         return Optional.ofNullable(
-                query.select(category.ordering.max())
+                query.select(category.categoryGroup.ordering.max())
                         .from(category)
+                        .where(category.categoryGroup.level.eq(1))
                         .fetchOne());
     }
 }
