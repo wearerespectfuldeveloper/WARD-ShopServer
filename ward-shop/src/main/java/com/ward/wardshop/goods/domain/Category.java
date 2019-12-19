@@ -1,7 +1,6 @@
 package com.ward.wardshop.goods.domain;
 
 import com.ward.wardshop.common.audit.BaseEntity;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,23 +15,17 @@ public class Category extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
+    @Column(length = 50)
     private String name;
 
-    private Long group_idx;
+    @Embedded
+    private CategoryGroup categoryGroup = new CategoryGroup();
 
-    private Integer level;
-
-    private Integer ordering;
-
-    @Builder
-    public Category(String name, Long group_idx, Integer level, Integer ordering) {
+    public Category(String name) {
         this.name = name;
-        this.group_idx = group_idx;
-        this.level = level;
-        this.ordering = ordering;
     }
 
-    public void changeGroup(Long group_idx) {
-        this.group_idx = group_idx;
+    public void moveGroupAfter(CategoryGroup preSibling) {
+        this.categoryGroup.changeGroup(preSibling);
     }
 }
