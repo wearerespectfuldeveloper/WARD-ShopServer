@@ -25,6 +25,10 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
+    public void setRootGroup(Integer ordering) {
+        moveGroupAfter(new CategoryGroup(this.idx, 1, ordering));
+    }
+
     public void moveGroupAfter(CategoryGroup preSibling) {
         this.categoryGroup.changeGroup(preSibling);
     }
