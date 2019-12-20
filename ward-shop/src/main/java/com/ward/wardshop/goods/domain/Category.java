@@ -32,4 +32,8 @@ public class Category extends BaseEntity {
     public void moveGroupAfter(CategoryGroup preSibling) {
         this.categoryGroup.changeGroup(preSibling);
     }
+
+    public void changeName(String categoryName) {
+        this.name = categoryName;
+    }
 }
