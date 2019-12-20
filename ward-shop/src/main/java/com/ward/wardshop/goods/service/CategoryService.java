@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -28,5 +30,13 @@ public class CategoryService {
 
         newCategory.setRootGroup(newOrder);
         return newCategory.getIdx();
+    }
+
+    @Transactional
+    public void changeCategoryName(Long idx, String categoryName) {
+        Category category = categoryRepository.findById(idx)
+                .orElseThrow(EntityNotFoundException::new);
+
+        category.changeName(categoryName);
     }
 }
