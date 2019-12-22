@@ -25,12 +25,23 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
-    public void setRootGroup(Integer ordering) {
-        moveGroupAfter(new CategoryGroup(this.idx, 1, ordering));
+    public void setRootGroupAfter(Integer preSiblingOrder) {
+        this.categoryGroup =
+                CategoryGroup.builder()
+                        .group_idx(this.getIdx())
+                        .level(1)
+                        .ordering(preSiblingOrder + 1)
+                        .build();
     }
 
     public void moveGroupAfter(CategoryGroup preSibling) {
-        this.categoryGroup.changeGroup(preSibling);
+        this.categoryGroup = CategoryGroup.builder()
+                .group_idx(preSibling.getGroup_idx())
+                .level(preSibling.getLevel())
+                .ordering(preSibling.getOrdering())
+                .build();
+
+        this.categoryGroup.addOrder(1);
     }
 
     public void changeName(String categoryName) {

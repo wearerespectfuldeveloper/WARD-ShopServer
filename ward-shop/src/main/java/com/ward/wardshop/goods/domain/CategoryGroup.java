@@ -1,6 +1,7 @@
 package com.ward.wardshop.goods.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,6 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class CategoryGroup {
 
@@ -16,9 +16,14 @@ public class CategoryGroup {
     private Integer level;
     private Integer ordering;
 
-    public void changeGroup(CategoryGroup preSibling) {
-        this.group_idx = preSibling.group_idx;
-        this.level = preSibling.level;
-        this.ordering = preSibling.ordering + 1;
+    @Builder
+    public CategoryGroup(Long group_idx, Integer level, Integer ordering) {
+        this.group_idx = group_idx;
+        this.level = level;
+        this.ordering = ordering;
+    }
+
+    public void addOrder(int val) {
+        this.ordering += val;
     }
 }
