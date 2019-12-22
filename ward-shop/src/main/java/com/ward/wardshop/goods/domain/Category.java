@@ -44,6 +44,10 @@ public class Category extends BaseEntity {
         this.categoryGroup.addOrder(1);
     }
 
+    public void addOrder(int val) {
+        this.categoryGroup.addOrder(val);
+    }
+
     public void changeName(String categoryName) {
         this.name = categoryName;
     }
