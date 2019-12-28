@@ -5,12 +5,14 @@ import com.ward.wardshop.goods.domain.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@ToString
 public class Product extends BaseEntity {
 
     @Id

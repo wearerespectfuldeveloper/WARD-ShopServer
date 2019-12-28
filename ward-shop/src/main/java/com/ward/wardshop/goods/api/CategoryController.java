@@ -4,10 +4,9 @@ import com.ward.wardshop.goods.service.CategoryService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/categories")
@@ -26,6 +25,14 @@ public class CategoryController {
         result.setIdx(categoryIdx);
 
         return result;
+    }
+
+    @PutMapping("/{idx}/name")
+    public ResponseEntity<String> changeCategoryName(@PathVariable Long idx,
+                                                     String categoryName) {
+        categoryService.changeCategoryName(idx, categoryName);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @NoArgsConstructor

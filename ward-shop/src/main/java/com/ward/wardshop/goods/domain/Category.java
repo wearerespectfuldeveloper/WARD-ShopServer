@@ -38,10 +38,8 @@ public class Category extends BaseEntity {
         this.categoryGroup = CategoryGroup.builder()
                 .group_idx(preSibling.getGroup_idx())
                 .level(preSibling.getLevel())
-                .ordering(preSibling.getOrdering())
+                .ordering(preSibling.getOrdering() + 1)
                 .build();
-
-        this.categoryGroup.addOrder(1);
     }
 
     public void addOrder(int val) {
