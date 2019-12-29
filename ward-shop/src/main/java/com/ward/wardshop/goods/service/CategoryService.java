@@ -2,6 +2,7 @@ package com.ward.wardshop.goods.service;
 
 import com.ward.wardshop.goods.api.model.CategoryGroupChangeForm;
 import com.ward.wardshop.goods.domain.Category;
+import com.ward.wardshop.goods.domain.CategoryGroup;
 import com.ward.wardshop.goods.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,8 @@ public class CategoryService {
     /**
      * 카테고리 생성은 항상 가장 아래의 루트 카테고리로 생성한다.
      *
-     * @param categoryName
-     * @return
+     * @param categoryName 생성할 카테고리 이름
+     * @return 생성된 카테고리의 idx 값이 반환된다.
      */
     @Transactional
     public Long createCategory(String categoryName) {
@@ -55,22 +56,30 @@ public class CategoryService {
         Category preSiblingCategory = categoryRepository.findById(changeForm.getPreSiblingIdx())
                 .orElse(null);
 
+        CategoryGroup preSiblingGroup = (Objects.nonNull(preSiblingCategory)) ?
+                preSiblingCategory.getCategoryGroup() :
+                CategoryGroup.builder().group_idx(targetCategory.getIdx()).level(1).ordering(0).build();
 
+        List<Category> betweenCategory = findBetweenCategoryOrder(
+                targetCategory.getCategoryGroup(),
+                preSiblingGroup);
+
+        targetCategory.moveGroupAfter(preSiblingGroup);
+        for (Category category : betweenCategory) {
+            category.addOrder(1);
+        }
     }
 
-    private List<Category> findBetweenCategoryOrder(Category targetCategory,
-                                                    Category preSiblingCategory) {
-        if (Objects.isNull(preSiblingCategory)) {
-            return categoryRepository.findBetweenCategoryOrder(1, targetCategory.getCategoryGroup().getOrdering() - 1);
+    private List<Category> findBetweenCategoryOrder(CategoryGroup targetGroup,
+                                                    CategoryGroup preSiblingGroup) {
+        if (targetGroup.getOrdering() > preSiblingGroup.getOrdering()) {
+            return categoryRepository.findCategoriesByCategoryGroup_OrderingBetween(
+                    preSiblingGroup.getOrdering() + 1,
+                    targetGroup.getOrdering() - 1);
         }
 
-        Integer targetOrder = targetCategory.getCategoryGroup().getOrdering();
-        Integer preSiblingOrder = preSiblingCategory.getCategoryGroup().getOrdering();
-
-        if (targetOrder > preSiblingOrder) {
-            return categoryRepository.findBetweenCategoryOrder(targetOrder, preSiblingOrder - 1);
-        } else {
-            return categoryRepository.findBetweenCategoryOrder(preSiblingOrder, targetOrder - 1);
-        }
+        return categoryRepository.findCategoriesByCategoryGroup_OrderingBetween(
+                targetGroup.getOrdering() + 1,
+                preSiblingGroup.getOrdering() - 1);
     }
 }
