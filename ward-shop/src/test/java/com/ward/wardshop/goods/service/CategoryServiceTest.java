@@ -38,7 +38,7 @@ class CategoryServiceTest {
         Optional<Category> category = categoryRepository.findById(categoryIdx);
 
         //then
-        log.info(category.get().getCategoryGroup().getGroup_idx().toString());
+        log.info(category.get().getIdx().toString());
         assertEquals(categoryIdx, 1);
         assertTrue(category.isPresent());
     }

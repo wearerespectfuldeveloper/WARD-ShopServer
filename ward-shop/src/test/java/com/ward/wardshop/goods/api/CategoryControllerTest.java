@@ -3,6 +3,7 @@ package com.ward.wardshop.goods.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ward.wardshop.goods.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +19,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -39,16 +42,19 @@ class CategoryControllerTest {
     @MockBean
     private CategoryService categoryService;
 
+    @BeforeEach
+    public void setup() {
+        when(
+                categoryService.createCategory(anyString())
+        ).thenReturn(1L);
+    }
+
     @Test
     @DisplayName("메인 카테고리 등록 테스트")
     void createMainCategoryTest() throws Exception {
         //given
         Map<String, String> param = new HashMap<>();
         param.put("categoryName", "testCategory");
-
-        given(
-                categoryService.createCategory(param.get("categoryName"))
-        ).willReturn(1L);
 
         //when
         final ResultActions actions = mvc.perform(
