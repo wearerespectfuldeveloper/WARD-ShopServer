@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface CategoryRepository
         extends JpaRepository<Category, Long>, CategoryRepositoryExtension {
-
-    List<Category> findCategoriesByCategoryGroup_OrderingBetween(Integer start, Integer end);
 }

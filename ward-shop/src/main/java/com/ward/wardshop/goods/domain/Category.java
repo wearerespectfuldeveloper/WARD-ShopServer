@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -18,35 +21,47 @@ public class Category extends BaseEntity {
     @Column(length = 50)
     private String name;
 
-    @Embedded
-    private CategoryGroup categoryGroup = new CategoryGroup();
+    @Column(nullable = false)
+    private Integer sequence = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "parentCategoryIdx")
+    private Category parentCategory;
+
+    @OneToMany(mappedBy = "parentCategory")
+    private List<Category> childrenCategories = new ArrayList<>();
+
 
     public Category(String name) {
         this.name = name;
     }
 
-    public void setRootGroupAfter(Integer preSiblingOrder) {
-        this.categoryGroup =
-                CategoryGroup.builder()
-                        .group_idx(this.getIdx())
-                        .level(1)
-                        .ordering(preSiblingOrder + 1)
-                        .build();
-    }
-
-    public void moveGroupAfter(CategoryGroup preSibling) {
-        this.categoryGroup = CategoryGroup.builder()
-                .group_idx(preSibling.getGroup_idx())
-                .level(preSibling.getLevel())
-                .ordering(preSibling.getOrdering() + 1)
-                .build();
-    }
-
-    public void addOrder(int val) {
-        this.categoryGroup.addOrder(val);
+    public void addSequence(int val) {
+        this.sequence += val;
     }
 
     public void changeName(String categoryName) {
         this.name = categoryName;
+    }
+
+    public void moveToParentCategory(Category parentCategory, int sequence) {
+        subSequenceAfterSibling();
+
+        if (Objects.nonNull(parentCategory)) {
+            this.parentCategory = parentCategory;
+            parentCategory.getChildrenCategories().stream()
+                    .filter(c -> c.getSequence() >= sequence)
+                    .forEach(c -> c.addSequence(1));
+        } else {
+            this.parentCategory = null;
+        }
+
+        this.sequence = sequence;
+    }
+
+    private void subSequenceAfterSibling() {
+        this.parentCategory.getChildrenCategories().stream()
+                .filter(c -> c.sequence > this.sequence)
+                .forEach(c -> c.addSequence(-1));
     }
 }

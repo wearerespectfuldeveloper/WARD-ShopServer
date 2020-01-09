@@ -1,11 +1,9 @@
 package com.ward.wardshop.goods.repository.impl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ward.wardshop.goods.domain.Category;
 import com.ward.wardshop.goods.repository.CategoryRepositoryExtension;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.ward.wardshop.goods.domain.QCategory.category;
@@ -15,18 +13,11 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
     private final JPAQueryFactory query;
 
     @Override
-    public List<Category> findAllOrderByCategoryGroupOrder() {
-        return query.selectFrom(category)
-                .orderBy(category.categoryGroup.ordering.asc())
-                .fetch();
-    }
-
-    @Override
     public Optional<Integer> findLastOrderingInRoot() {
         return Optional.ofNullable(
-                query.select(category.categoryGroup.ordering.max())
+                query.select(category.sequence.max())
                         .from(category)
-                        .where(category.categoryGroup.level.eq(1))
+                        .where(category.parentCategory.isNull())
                         .fetchOne());
     }
 }
