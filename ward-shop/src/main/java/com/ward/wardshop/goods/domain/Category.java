@@ -1,6 +1,5 @@
 package com.ward.wardshop.goods.domain;
 
-import com.ward.wardshop.common.audit.BaseEntity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
-public class Category extends BaseEntity {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
