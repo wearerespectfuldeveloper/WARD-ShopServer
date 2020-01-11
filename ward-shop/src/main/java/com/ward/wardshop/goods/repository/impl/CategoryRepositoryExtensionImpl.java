@@ -2,6 +2,8 @@ package com.ward.wardshop.goods.repository.impl;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ward.wardshop.goods.domain.Category;
+import com.ward.wardshop.goods.domain.QCategory;
 import com.ward.wardshop.goods.repository.CategoryRepositoryExtension;
 import lombok.RequiredArgsConstructor;
 
@@ -35,5 +37,16 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
                 ))
                 .from(category)
                 .fetch();
+    }
+
+    @Override
+    public Category findCategoryByIdxFetchChildren(Long idx) {
+        QCategory parent = new QCategory("parent");
+        QCategory child = new QCategory("child");
+
+        return query.selectFrom(parent)
+                .leftJoin(parent.childCategories, child).fetchJoin()
+                .where(parent.idx.eq(idx))
+                .fetchOne();
     }
 }
