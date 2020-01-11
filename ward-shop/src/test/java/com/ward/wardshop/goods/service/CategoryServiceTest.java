@@ -3,7 +3,6 @@ package com.ward.wardshop.goods.service;
 import com.ward.wardshop.goods.domain.Category;
 import com.ward.wardshop.goods.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @SpringBootTest
@@ -41,7 +41,7 @@ class CategoryServiceTest {
     h
         i
         j
-     */
+     *//*
     @BeforeEach
     void setUp() {
         Category a = new Category("a");
@@ -73,7 +73,7 @@ class CategoryServiceTest {
 
         categoryRepository.save(a);
         categoryRepository.save(h);
-    }
+    }*/
 
     @Test
     @WithAnonymousUser
@@ -109,5 +109,13 @@ class CategoryServiceTest {
 
         //then
         assertEquals(target.getSequence(), destinationSequence);
+    }
+
+    @Test
+    @WithAnonymousUser
+    @Transactional
+    void getCategoryList() {
+        //given
+        categoryService.getCategoryList();
     }
 }

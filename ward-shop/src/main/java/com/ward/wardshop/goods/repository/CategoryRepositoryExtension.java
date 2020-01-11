@@ -1,7 +1,12 @@
 package com.ward.wardshop.goods.repository;
 
+import com.ward.wardshop.goods.repository.impl.CategoryQueryDto;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepositoryExtension {
     Optional<Integer> findLastOrderingInRoot();
+
+    List<CategoryQueryDto> findAllQueryDto();
 }

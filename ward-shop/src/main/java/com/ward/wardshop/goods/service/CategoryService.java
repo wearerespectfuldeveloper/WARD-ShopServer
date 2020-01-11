@@ -1,12 +1,18 @@
 package com.ward.wardshop.goods.service;
 
 import com.ward.wardshop.goods.domain.Category;
+import com.ward.wardshop.goods.domain.CategoryDto;
 import com.ward.wardshop.goods.repository.CategoryRepository;
+import com.ward.wardshop.goods.repository.impl.CategoryQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.*;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -15,8 +21,39 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public void getCategoryList() {
-        //TODO 트리형 카테고리 리스트 DTO 반환
+    public List<CategoryDto> getCategoryList() {
+        List<CategoryQueryDto> data = categoryRepository.findAllQueryDto();
+
+        List<CategoryDto> roots = data.stream()
+                .filter(dto -> Objects.isNull(dto.getParentCategoryIdx()))
+                .sorted(Comparator.comparing(CategoryQueryDto::getSequence))
+                .map(dto -> new CategoryDto(dto.getIdx(), dto.getName(), new ArrayList<>()))
+                .collect(toList());
+
+        Map<Long, List<CategoryQueryDto>> children = data.stream()
+                .filter(dto -> Objects.nonNull(dto.getParentCategoryIdx()))
+                .collect(groupingBy(CategoryQueryDto::getParentCategoryIdx));
+
+        assembleCategoryDto(roots, children);
+
+        return roots;
+    }
+
+    private void assembleCategoryDto(List<CategoryDto> categoryDtos, Map<Long, List<CategoryQueryDto>> children) {
+        for (CategoryDto categoryDto : categoryDtos) {
+            List<CategoryQueryDto> categoryQueryDtos = children.get(categoryDto.getIdx());
+
+            if (Objects.nonNull(categoryQueryDtos)) {
+                List<CategoryDto> collectedChild = categoryQueryDtos.stream()
+                        .sorted(Comparator.comparing(CategoryQueryDto::getSequence))
+                        .map(dto -> new CategoryDto(dto.getIdx(), dto.getName(), new ArrayList<>()))
+                        .collect(toList());
+
+                categoryDto.getChildCategories().addAll(collectedChild);
+
+                assembleCategoryDto(collectedChild, children);
+            }
+        }
     }
 
     /**

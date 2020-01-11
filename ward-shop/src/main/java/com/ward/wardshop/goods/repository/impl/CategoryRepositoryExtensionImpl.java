@@ -1,9 +1,11 @@
 package com.ward.wardshop.goods.repository.impl;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ward.wardshop.goods.repository.CategoryRepositoryExtension;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.ward.wardshop.goods.domain.QCategory.category;
@@ -19,5 +21,19 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
                         .from(category)
                         .where(category.parentCategory.isNull())
                         .fetchOne());
+    }
+
+    @Override
+    public List<CategoryQueryDto> findAllQueryDto() {
+        return query.select(
+                Projections.constructor(
+                        CategoryQueryDto.class,
+                        category.idx,
+                        category.name,
+                        category.sequence,
+                        category.parentCategory.idx
+                ))
+                .from(category)
+                .fetch();
     }
 }
