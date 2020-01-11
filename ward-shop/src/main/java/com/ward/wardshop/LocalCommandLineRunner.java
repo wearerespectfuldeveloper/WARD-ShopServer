@@ -14,6 +14,18 @@ public class LocalCommandLineRunner implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
 
+    /*
+    a
+        b
+            c
+            d
+        e
+            f
+            g
+    h
+        i
+        j
+     */
     @Override
     public void run(String... args) throws Exception {
         Category a = new Category("a");
