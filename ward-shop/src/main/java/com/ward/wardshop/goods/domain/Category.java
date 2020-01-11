@@ -1,7 +1,6 @@
 package com.ward.wardshop.goods.domain;
 
 import com.ward.wardshop.common.audit.BaseEntity;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,7 +10,6 @@ import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
-@Getter
 public class Category extends BaseEntity {
 
     @Id
@@ -28,40 +26,60 @@ public class Category extends BaseEntity {
     @JoinColumn(name = "parentCategoryIdx")
     private Category parentCategory;
 
-    @OneToMany(mappedBy = "parentCategory")
-    private List<Category> childrenCategories = new ArrayList<>();
+    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
+    private List<Category> childCategories = new ArrayList<>();
 
 
     public Category(String name) {
         this.name = name;
     }
 
+    public Long getIdx() {
+        return idx;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
     public void addSequence(int val) {
         this.sequence += val;
+    }
+
+    public void changeSequence(int sequence) {
+        this.sequence = sequence;
     }
 
     public void changeName(String categoryName) {
         this.name = categoryName;
     }
 
-    public void moveToParentCategory(Category parentCategory, int sequence) {
-        subSequenceAfterSibling();
+    public void addChildCategory(Category newChild, int sequence) {
+        this.childCategories.stream()
+                .filter(c -> c.getSequence() >= sequence)
+                .forEach(c -> c.addSequence(1));
 
-        if (Objects.nonNull(parentCategory)) {
-            this.parentCategory = parentCategory;
-            parentCategory.getChildrenCategories().stream()
-                    .filter(c -> c.getSequence() >= sequence)
-                    .forEach(c -> c.addSequence(1));
-        } else {
-            this.parentCategory = null;
-        }
-
-        this.sequence = sequence;
+        newChild.changeParent(this);
+        newChild.changeSequence(sequence);
+        childCategories.add(newChild);
     }
 
-    private void subSequenceAfterSibling() {
-        this.parentCategory.getChildrenCategories().stream()
-                .filter(c -> c.sequence > this.sequence)
+    public void deleteParent() {
+        if (Objects.nonNull(parentCategory)) {
+            parentCategory.deleteChildCategory(this);
+        }
+    }
+
+    public void deleteChildCategory(Category deleteChild) {
+        this.childCategories.stream()
+                .filter(c -> c.getSequence() > deleteChild.getSequence())
                 .forEach(c -> c.addSequence(-1));
+
+        childCategories.remove(deleteChild);
+        deleteChild.changeParent(null);
+    }
+
+    private void changeParent(Category parentCategory) {
+        this.parentCategory = parentCategory;
     }
 }
