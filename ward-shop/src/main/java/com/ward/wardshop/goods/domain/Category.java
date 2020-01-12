@@ -35,6 +35,7 @@ public class Category {
     /**
      * 최상위 루트 카테고리를 위한 더미 인스턴스
      * @param children
+     * 부모 카테고리가 Null 인 최상위 루트 카테고리 리스트
      */
     private Category(List<Category> children) {
         this.name = "DUMMY";

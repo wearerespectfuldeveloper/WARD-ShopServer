@@ -80,4 +80,19 @@ public class CategoryService {
 
         category.changeName(categoryName);
     }
+
+    @Transactional
+    public void moveCategory(Long targetIdx, Long destIdx, Integer sequence) {
+        Category targetParent = categoryRepository
+                .findCategoryTargetParentFetchChildren(targetIdx);
+
+        Category destCategory = categoryRepository
+                .findCategoryByIdxFetchChildren(destIdx);
+
+        Category targetCategory = categoryRepository.findById(targetIdx)
+                .orElseThrow(EntityNotFoundException::new);
+
+        targetParent.deleteChildCategory(targetCategory);
+        destCategory.addChildCategory(targetCategory, sequence);
+    }
 }

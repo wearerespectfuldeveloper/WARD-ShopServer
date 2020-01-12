@@ -73,4 +73,25 @@ class CategoryServiceTest {
         //given
         categoryService.getCategoryList();
     }
+
+    @Test
+    @WithAnonymousUser
+    @Transactional
+    void moveToCategoryTest() {
+        //given
+        Long targetIdx = 8L;
+        Long destIdx = 5L;
+        Integer sequence = 1;
+
+        //when
+        categoryService.moveCategory(targetIdx, destIdx, sequence);
+
+        //then
+        Category targetCategory = categoryRepository.findById(targetIdx)
+                .orElseThrow(EntityNotFoundException::new);
+        Category parentCategory = categoryRepository.findById(destIdx)
+                .orElseThrow(EntityNotFoundException::new);
+
+        assertEquals(targetCategory.getSequence(), sequence);
+    }
 }
