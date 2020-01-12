@@ -15,7 +15,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String name;
 
     @Column(nullable = false)
@@ -38,7 +38,6 @@ public class Category {
      * 부모 카테고리가 Null 인 최상위 루트 카테고리 리스트
      */
     private Category(List<Category> children) {
-        this.name = "DUMMY";
         this.childCategories = children;
     }
 
@@ -67,7 +66,9 @@ public class Category {
                 .filter(c -> c.getSequence() >= sequence)
                 .forEach(c -> c.addSequence(1));
 
-        newChild.changeParent(this);
+        if (Objects.nonNull(this.name)) {
+            newChild.changeParent(this);
+        }
         newChild.changeSequence(sequence);
         childCategories.add(newChild);
     }
