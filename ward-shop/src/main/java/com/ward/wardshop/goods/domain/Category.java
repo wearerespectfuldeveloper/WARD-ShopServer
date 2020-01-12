@@ -28,9 +28,17 @@ public class Category {
     @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
     private List<Category> childCategories = new ArrayList<>();
 
-
     public Category(String name) {
         this.name = name;
+    }
+
+    /**
+     * 최상위 루트 카테고리를 위한 더미 인스턴스
+     * @param children
+     */
+    private Category(List<Category> children) {
+        this.name = "DUMMY";
+        this.childCategories = children;
     }
 
     public Long getIdx() {
@@ -80,5 +88,11 @@ public class Category {
 
     private void changeParent(Category parentCategory) {
         this.parentCategory = parentCategory;
+    }
+
+    public static class Root {
+        public static Category create(List<Category> children) {
+            return new Category(children);
+        }
     }
 }

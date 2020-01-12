@@ -3,11 +3,11 @@ package com.ward.wardshop.goods.repository.impl;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ward.wardshop.goods.domain.Category;
-import com.ward.wardshop.goods.domain.QCategory;
 import com.ward.wardshop.goods.repository.CategoryRepositoryExtension;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.ward.wardshop.goods.domain.QCategory.category;
@@ -41,6 +41,16 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
 
     @Override
     public Category findCategoryByIdxFetchChildren(Long idx) {
+
+        if (Objects.isNull(idx)) {
+            List<Category> children = query.selectFrom(category)
+                    .where(category.parentCategory.isNull())
+                    .orderBy(category.sequence.asc())
+                    .fetch();
+
+            return Category.Root.create(children);
+        }
+
         return query.selectFrom(category)
                 .leftJoin(category.childCategories).fetchJoin()
                 .where(category.idx.eq(idx))
