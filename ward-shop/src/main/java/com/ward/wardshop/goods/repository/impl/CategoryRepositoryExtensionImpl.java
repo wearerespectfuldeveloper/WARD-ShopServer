@@ -41,12 +41,9 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
 
     @Override
     public Category findCategoryByIdxFetchChildren(Long idx) {
-        QCategory parent = new QCategory("parent");
-        QCategory child = new QCategory("child");
-
-        return query.selectFrom(parent)
-                .leftJoin(parent.childCategories, child).fetchJoin()
-                .where(parent.idx.eq(idx))
+        return query.selectFrom(category)
+                .leftJoin(category.childCategories).fetchJoin()
+                .where(category.idx.eq(idx))
                 .fetchOne();
     }
 }
