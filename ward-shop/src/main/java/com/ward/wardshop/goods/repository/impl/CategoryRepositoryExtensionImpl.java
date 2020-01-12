@@ -43,10 +43,7 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
     public Category findCategoryByIdxFetchChildren(Long idx) {
 
         if (Objects.isNull(idx)) {
-            List<Category> children = query.selectFrom(category)
-                    .where(category.parentCategory.isNull())
-                    .orderBy(category.sequence.asc())
-                    .fetch();
+            List<Category> children = findRootCategories();
 
             return Category.Root.create(children);
         }
@@ -54,7 +51,15 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
         return query.selectFrom(category)
                 .leftJoin(category.childCategories).fetchJoin()
                 .where(category.idx.eq(idx))
+                .orderBy(category.sequence.asc())
                 .fetchOne();
+    }
+
+    private List<Category> findRootCategories() {
+        return query.selectFrom(category)
+                .where(category.parentCategory.isNull())
+                .orderBy(category.sequence.asc())
+                .fetch();
     }
 
     @Override
@@ -62,6 +67,7 @@ public class CategoryRepositoryExtensionImpl implements CategoryRepositoryExtens
         Long parentIdx = query.select(category.parentCategory.idx)
                 .from(category)
                 .where(category.idx.eq(idx))
+                .orderBy(category.sequence.asc())
                 .fetchOne();
 
         return findCategoryByIdxFetchChildren(parentIdx);

@@ -1,5 +1,6 @@
 package com.ward.wardshop.goods.api;
 
+import com.ward.wardshop.goods.api.model.CategoryLocationForm;
 import com.ward.wardshop.goods.domain.CategoryDto;
 import com.ward.wardshop.goods.service.CategoryService;
 import lombok.Data;
@@ -39,6 +40,13 @@ public class CategoryController {
     public ResponseEntity<String> changeCategoryName(@PathVariable Long idx,
                                                      String categoryName) {
         categoryService.changeCategoryName(idx, categoryName);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PutMapping("/move")
+    public ResponseEntity<String> changeCategoryLocation(@RequestBody CategoryLocationForm form) {
+        categoryService.moveCategory(form.getTargetIdx(), form.getDestIdx(), form.getSequence());
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }

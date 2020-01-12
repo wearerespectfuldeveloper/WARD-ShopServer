@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class CategoryGroupChangeForm {
+public class CategoryLocationForm {
     private Long targetIdx;
-    private Long preSiblingIdx;
+    private Long destIdx;
+    private Integer sequence;
 }

@@ -1,0 +1,13 @@
+PUT http://localhost:8080/categories/move
+Content-Type: application/json
+
+{
+  "targetIdx": "8",
+  "destIdx": "",
+  "sequence": "1"
+}
+
+###
+GET http://localhost:8080/categories
+
+###
