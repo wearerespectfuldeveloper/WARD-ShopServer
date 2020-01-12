@@ -12,4 +12,6 @@ public interface CategoryRepositoryExtension {
     List<CategoryQueryDto> findAllQueryDto();
 
     Category findCategoryByIdxFetchChildren(Long idx);
+
+    Category findCategoryByIdxFetchParent(Long idx);
 }

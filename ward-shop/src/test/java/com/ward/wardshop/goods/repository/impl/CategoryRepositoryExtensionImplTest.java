@@ -30,4 +30,16 @@ class CategoryRepositoryExtensionImplTest {
         //then
         assertNotNull(category);
     }
+
+    @Test
+    public void findCategoryByIdxFetchParentTest() {
+        //given
+        Long idx = 1L;
+
+        //when
+        Category category = categoryRepository.findCategoryByIdxFetchParent(idx);
+
+        //then
+        assertNotNull(category);
+    }
 }
