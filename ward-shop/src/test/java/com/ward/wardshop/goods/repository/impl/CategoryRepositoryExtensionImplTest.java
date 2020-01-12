@@ -34,10 +34,10 @@ class CategoryRepositoryExtensionImplTest {
     @Test
     public void findCategoryByIdxFetchParentTest() {
         //given
-        Long idx = 1L;
+        Long idx = 5L;
 
         //when
-        Category category = categoryRepository.findCategoryByIdxFetchParent(idx);
+        Category category = categoryRepository.findCategoryTargetParentFetchChildren(idx);
 
         //then
         assertNotNull(category);

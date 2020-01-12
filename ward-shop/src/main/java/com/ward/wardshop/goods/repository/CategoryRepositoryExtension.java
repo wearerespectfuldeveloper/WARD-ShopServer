@@ -13,5 +13,5 @@ public interface CategoryRepositoryExtension {
 
     Category findCategoryByIdxFetchChildren(Long idx);
 
-    Category findCategoryByIdxFetchParent(Long idx);
+    Category findCategoryTargetParentFetchChildren(Long idx);
 }
