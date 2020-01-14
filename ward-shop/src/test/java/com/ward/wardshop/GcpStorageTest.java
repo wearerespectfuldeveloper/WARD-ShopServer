@@ -53,7 +53,7 @@ public class GcpStorageTest {
                 BlobInfo.newBuilder(
                         "images.ward-study.com",
                         Objects.requireNonNull(file.getName())
-                ).setAcl(acls).build(),
+                ).setAcl(acls).setContentType("image/jpeg").build(),
                 new FileInputStream(file)
         );
     }
