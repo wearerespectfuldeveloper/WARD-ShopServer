@@ -6,11 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.gcp.storage.GoogleStorageResource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,5 +59,15 @@ public class GcpStorageTest {
     @Test
     void deleteTest() {
         storage.delete(BlobId.of("images.ward-study.com", "product/test/cat.jpg"));
+    }
+
+    @Test
+    void googleStorageResourceGetTest() {
+        GoogleStorageResource googleStorageResource =
+                new GoogleStorageResource(storage, "gs://images.ward-study.com");
+        Blob blob = googleStorageResource.getBucket().get("product/cat.jpg");
+
+        Path path = Paths.get("src/main/resources/static/cat_test.jpg");
+        blob.downloadTo(path);
     }
 }
