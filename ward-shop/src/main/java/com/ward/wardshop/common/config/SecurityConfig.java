@@ -42,7 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void setProdMode(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers("/simple", "/swagger*/**", "/webjars/**").permitAll()
+                .antMatchers("/simple",
+                        "/v2/api-docs",
+                        "/configuration/**",
+                        "/swagger*/**",
+                        "/webjars/**")
+                .permitAll()
                 .antMatchers("/**").authenticated();
     }
 }
