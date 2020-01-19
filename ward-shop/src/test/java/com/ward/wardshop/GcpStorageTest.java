@@ -7,6 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.gcp.storage.GoogleStorageResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
@@ -38,6 +40,14 @@ public class GcpStorageTest {
 
         File copy = new File("src/main/resources/static/cat_2.jpg");
         Files.copy(file.toPath(), copy.toPath());
+    }
+
+    @Test
+    void classpathResource() throws IOException {
+        Resource file = new ClassPathResource("static/cat.jpg");
+
+        File copy = new File("src/main/resources/static/cat_2.jpg");
+        Files.copy(file.getInputStream(), copy.toPath());
     }
 
     @Test
