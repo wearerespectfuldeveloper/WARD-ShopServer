@@ -4,6 +4,7 @@ import com.ward.wardshop.goods.api.model.CategoryLocationForm;
 import com.ward.wardshop.goods.domain.CategoryDto;
 import com.ward.wardshop.goods.service.CategoryService;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,8 @@ public class CategoryController {
 
     @PutMapping("/{idx}/name")
     public ResponseEntity<String> changeCategoryName(@PathVariable Long idx,
-                                                     String categoryName) {
-        categoryService.changeCategoryName(idx, categoryName);
+                                                     CategoryNameForm form) {
+        categoryService.changeCategoryName(idx, form.getCategoryName());
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
@@ -55,5 +56,11 @@ public class CategoryController {
     @Data
     private static class Result {
         private Long idx;
+    }
+
+    @NoArgsConstructor
+    @Getter
+    private static class CategoryNameForm {
+        private String categoryName;
     }
 }
