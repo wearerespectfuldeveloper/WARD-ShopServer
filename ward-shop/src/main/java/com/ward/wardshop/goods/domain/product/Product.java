@@ -28,7 +28,7 @@ public class Product extends BaseEntity {
 
     private Integer stockQuantity;
 
-    private String imagePath;
+    private ImageResource imageResource;
 
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus = ProductStatus.PENDING;
@@ -42,15 +42,19 @@ public class Product extends BaseEntity {
                    String description,
                    Integer price,
                    Integer stockQuantity,
-                   String imagePath,
-                   ProductStatus productStatus,
                    Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
-        this.imagePath = imagePath;
-        this.productStatus = productStatus;
         this.category = category;
+    }
+
+    public void createImageResource(String fileName) {
+        this.imageResource = ImageResource.generateFileName(fileName);
+    }
+
+    public void changeStatus(ProductStatus productStatus) {
+        this.productStatus = productStatus;
     }
 }
