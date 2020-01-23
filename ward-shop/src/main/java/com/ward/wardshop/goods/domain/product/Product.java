@@ -50,6 +50,10 @@ public class Product extends BaseEntity {
         this.category = category;
     }
 
+    public void changeCategory(Category category) {
+        this.category = category;
+    }
+
     public void createImageResource(String fileName) {
         this.imageResource = ImageResource.generateFileName(fileName);
     }

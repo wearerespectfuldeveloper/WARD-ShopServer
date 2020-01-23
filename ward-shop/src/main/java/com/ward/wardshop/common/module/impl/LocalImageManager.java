@@ -13,12 +13,19 @@ import java.io.IOException;
 public class LocalImageManager implements ImageManager {
 
     private static final String BASE = "src/main/resources/static/";
+
     @Override
     public void uploadImg(byte[] content, String path) throws IOException {
-        File file = new File(BASE + path);
+        String filePath = BASE + path;
+        File file = new File(filePath);
 
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        fileOutputStream.write(content);
+        if (file.createNewFile()) {
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(content);
+            }
+        } else {
+            throw new IOException("Fail to create file");
+        }
     }
 
     @Override

@@ -4,10 +4,13 @@ import com.ward.wardshop.goods.api.model.ProductForm;
 import com.ward.wardshop.goods.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/products")
@@ -17,9 +20,8 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String createProduct(@Valid ProductForm productForm, MultipartFile imgFile) {
-        Long productIdx = productService.create(productForm);
+    public Long createProduct(@Valid ProductForm productForm, MultipartFile imgFile) throws IOException {
 
-        return "aaa";
+        return productService.create(productForm, imgFile);
     }
 }

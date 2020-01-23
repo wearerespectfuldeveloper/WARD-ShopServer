@@ -1,5 +1,6 @@
 package com.ward.wardshop.goods.api.model;
 
+import com.ward.wardshop.goods.domain.product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +29,14 @@ public class ProductForm {
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    public Product toEntity() {
+        return Product.builder()
+                .name(name)
+                .description(description)
+                .price(price)
+                .stockQuantity(stockQuantity)
+                .build();
     }
 }
