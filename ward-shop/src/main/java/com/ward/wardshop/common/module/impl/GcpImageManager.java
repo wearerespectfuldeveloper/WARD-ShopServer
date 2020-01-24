@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
@@ -22,13 +24,13 @@ public class GcpImageManager implements ImageManager {
     private final String BUCKET = "images.ward-study.com";
 
     @Override
-    public void uploadImg(byte[] content, String path) {
+    public void uploadImg(MultipartFile uploadFile, String path) throws IOException {
         storage.create(
                 BlobInfo.newBuilder(BUCKET, path)
                         .setAcl(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER)))
                         .setContentType(MediaType.IMAGE_JPEG_VALUE)
                         .build(),
-                content
+                uploadFile.getBytes()
         );
     }
 

@@ -5,13 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,14 +24,9 @@ class LocalImageManagerTest {
 
     @Test
     void uploadTest() throws IOException {
-        File file = new File("src/main/resources/static/cat.jpg");
-        byte[] bytes = new byte[(int) file.length()];
-
-        FileInputStream fileInputStream = new FileInputStream(file);
-
-        fileInputStream.read(bytes);
-        fileInputStream.close();
-        imageManager.uploadImg(bytes, "cat_test.jpg");
+        InputStream inputStream = new FileInputStream(new File("src/main/resources/static/cat.jpg"));
+        MockMultipartFile multipartFile = new MockMultipartFile("imgFile", "cat.jpg", MediaType.IMAGE_JPEG_VALUE, inputStream);
+        imageManager.uploadImg(multipartFile, "product/cat_test.jpg");
     }
 
     @Test

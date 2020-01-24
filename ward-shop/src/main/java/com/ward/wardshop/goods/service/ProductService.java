@@ -49,7 +49,7 @@ public class ProductService {
 
     private void saveImage(MultipartFile uploadImage) throws IOException {
         imageManager.uploadImg(
-                uploadImage.getBytes(),
+                uploadImage,
                 PRODUCT_PATH + FilenameResolver.generate(uploadImage.getOriginalFilename())
         );
     }
