@@ -43,8 +43,10 @@ public class ProductService {
     }
 
     @Transactional
-    public Long update(ProductUpdateForm form, MultipartFile multipartFile) throws IOException {
-        Product updatedProduct = productRepository.findById(form.getProductIdx())
+    public Long update(Long idx,
+                       ProductUpdateForm form,
+                       MultipartFile multipartFile) throws IOException {
+        Product updatedProduct = productRepository.findById(idx)
                 .orElseThrow(EntityNotFoundException::new);
 
         updatedProduct.updateData(form);

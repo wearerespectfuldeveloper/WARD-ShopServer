@@ -10,9 +10,6 @@ import javax.validation.constraints.NotNull;
 public class ProductUpdateForm {
 
     @NotNull
-    private Long productIdx;
-
-    @NotNull
     private String name;
 
     private String description;
