@@ -1,6 +1,7 @@
 package com.ward.wardshop.goods.domain.product;
 
 import com.ward.wardshop.common.audit.BaseEntity;
+import com.ward.wardshop.goods.api.model.ProductUpdateForm;
 import com.ward.wardshop.goods.domain.Category;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,5 +61,12 @@ public class Product extends BaseEntity {
 
     public void changeStatus(ProductStatus productStatus) {
         this.productStatus = productStatus;
+    }
+
+    public void updateData(ProductUpdateForm form) {
+        this.name = form.getName();
+        this.description = form.getDescription();
+        this.price = form.getPrice();
+        this.stockQuantity = form.getStockQuantity();
     }
 }

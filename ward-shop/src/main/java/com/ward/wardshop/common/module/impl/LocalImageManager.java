@@ -20,7 +20,7 @@ public class LocalImageManager implements ImageManager {
         File file = new File(filePath);
         uploadFile.transferTo(file);
 
-        return "classpath:static/" + path;
+        return filePath;
     }
 
     @Override

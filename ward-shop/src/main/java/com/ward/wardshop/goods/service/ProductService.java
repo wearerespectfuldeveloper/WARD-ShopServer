@@ -3,6 +3,7 @@ package com.ward.wardshop.goods.service;
 import com.ward.wardshop.common.module.ImageManager;
 import com.ward.wardshop.common.module.impl.FilenameResolver;
 import com.ward.wardshop.goods.api.model.ProductForm;
+import com.ward.wardshop.goods.api.model.ProductUpdateForm;
 import com.ward.wardshop.goods.domain.Category;
 import com.ward.wardshop.goods.domain.product.Product;
 import com.ward.wardshop.goods.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -40,6 +42,21 @@ public class ProductService {
         return newProduct.getIdx();
     }
 
+    @Transactional
+    public Long update(ProductUpdateForm form, MultipartFile multipartFile) throws IOException {
+        Product updatedProduct = productRepository.findById(form.getProductIdx())
+                .orElseThrow(EntityNotFoundException::new);
+
+        updatedProduct.updateData(form);
+
+        if (Objects.nonNull(multipartFile)) {
+            deleteImage(updatedProduct);
+            updatedProduct.createImageResource(saveImage(multipartFile));
+        }
+
+        return updatedProduct.getIdx();
+    }
+
     private Product createProductEntityWithCategory(ProductForm productForm, Category category) {
         Product newProduct = productForm.toEntity();
         newProduct.changeCategory(category);
@@ -52,5 +69,9 @@ public class ProductService {
                 uploadImage,
                 PRODUCT_PATH + FilenameResolver.generate(uploadImage.getOriginalFilename())
         );
+    }
+
+    private void deleteImage(Product product) throws IOException {
+        imageManager.deleteImg(product.getImageResource());
     }
 }

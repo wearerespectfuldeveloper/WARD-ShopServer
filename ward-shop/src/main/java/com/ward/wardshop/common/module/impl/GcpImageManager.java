@@ -21,6 +21,7 @@ import java.util.Arrays;
 public class GcpImageManager implements ImageManager {
 
     private final Storage storage;
+    private final String PROTOCOL = "http://";
     private final String BUCKET = "images.ward-study.com";
 
     @Override
@@ -33,11 +34,16 @@ public class GcpImageManager implements ImageManager {
                 uploadFile.getBytes()
         );
 
-        return "http://" + BUCKET + "/" + path;
+        return PROTOCOL + BUCKET + "/" + path;
     }
 
     @Override
     public void deleteImg(String path) {
-        storage.delete(BlobId.of(BUCKET, path));
+        String resourceDir = extractResourceDir(path);
+        storage.delete(BlobId.of(BUCKET, resourceDir));
+    }
+
+    private String extractResourceDir(String bucketPath) {
+        return bucketPath.replace(PROTOCOL + BUCKET + "/", "");
     }
 }
