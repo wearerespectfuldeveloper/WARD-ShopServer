@@ -28,7 +28,7 @@ public class Product extends BaseEntity {
 
     private Integer stockQuantity;
 
-    private ImageResource imageResource;
+    private String imageResource;
 
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus = ProductStatus.PENDING;
@@ -54,8 +54,8 @@ public class Product extends BaseEntity {
         this.category = category;
     }
 
-    public void createImageResource(String fileName) {
-        this.imageResource = ImageResource.generateFileName(fileName);
+    public void createImageResource(String filePath) {
+        this.imageResource = filePath;
     }
 
     public void changeStatus(ProductStatus productStatus) {

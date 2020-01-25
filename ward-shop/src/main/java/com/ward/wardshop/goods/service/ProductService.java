@@ -31,12 +31,12 @@ public class ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("Is not exists category."));
 
         Product newProduct = createProductEntityWithCategory(productForm, category);
-        productRepository.save(newProduct);
 
         if (Objects.nonNull(multipartFile)) {
-            saveImage(multipartFile);
+            newProduct.createImageResource(saveImage(multipartFile));
         }
 
+        productRepository.save(newProduct);
         return newProduct.getIdx();
     }
 
@@ -47,8 +47,8 @@ public class ProductService {
         return newProduct;
     }
 
-    private void saveImage(MultipartFile uploadImage) throws IOException {
-        imageManager.uploadImg(
+    private String saveImage(MultipartFile uploadImage) throws IOException {
+        return imageManager.uploadImg(
                 uploadImage,
                 PRODUCT_PATH + FilenameResolver.generate(uploadImage.getOriginalFilename())
         );

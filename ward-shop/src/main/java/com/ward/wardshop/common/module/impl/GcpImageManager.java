@@ -24,7 +24,7 @@ public class GcpImageManager implements ImageManager {
     private final String BUCKET = "images.ward-study.com";
 
     @Override
-    public void uploadImg(MultipartFile uploadFile, String path) throws IOException {
+    public String uploadImg(MultipartFile uploadFile, String path) throws IOException {
         storage.create(
                 BlobInfo.newBuilder(BUCKET, path)
                         .setAcl(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER)))
@@ -32,6 +32,8 @@ public class GcpImageManager implements ImageManager {
                         .build(),
                 uploadFile.getBytes()
         );
+
+        return "http://" + BUCKET + "/" + path;
     }
 
     @Override

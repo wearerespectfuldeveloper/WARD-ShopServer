@@ -15,10 +15,12 @@ public class LocalImageManager implements ImageManager {
     private static final String BASE = "/Users/leafy/IdeaProjects/WARD-ShopServer/ward-shop/src/main/resources/static/";
 
     @Override
-    public void uploadImg(MultipartFile uploadFile, String path) throws IOException {
+    public String uploadImg(MultipartFile uploadFile, String path) throws IOException {
         String filePath = BASE + path;
         File file = new File(filePath);
         uploadFile.transferTo(file);
+
+        return "classpath:static/" + path;
     }
 
     @Override
