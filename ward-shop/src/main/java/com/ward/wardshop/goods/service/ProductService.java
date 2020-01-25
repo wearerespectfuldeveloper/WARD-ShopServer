@@ -59,6 +59,15 @@ public class ProductService {
         return updatedProduct.getIdx();
     }
 
+    @Transactional
+    public void delete(Long idx) throws IOException {
+        Product deletedProduct = productRepository.findById(idx)
+                .orElseThrow(EntityNotFoundException::new);
+
+        deleteImage(deletedProduct);
+        productRepository.delete(deletedProduct);
+    }
+
     private Product createProductEntityWithCategory(ProductForm productForm, Category category) {
         Product newProduct = productForm.toEntity();
         newProduct.changeCategory(category);

@@ -24,11 +24,16 @@ public class ProductController {
         return productService.create(productForm, imgFile);
     }
 
-    @PutMapping("/{idx}")
+    @PutMapping(value = "/{idx}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Long updateProduct(
             @PathVariable Long idx,
             @Valid ProductUpdateForm form,
             MultipartFile imgFile) throws IOException {
         return productService.update(idx, form, imgFile);
+    }
+
+    @DeleteMapping("/idx")
+    public void deleteProduct(@PathVariable Long idx) throws IOException {
+        productService.delete(idx);
     }
 }
