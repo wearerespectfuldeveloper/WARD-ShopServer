@@ -1,7 +1,7 @@
 package com.ward.wardshop.goods.api;
 
 import com.ward.wardshop.goods.api.model.CategoryLocationForm;
-import com.ward.wardshop.goods.domain.CategoryDto;
+import com.ward.wardshop.goods.service.dto.CategoryDto;
 import com.ward.wardshop.goods.service.CategoryService;
 import lombok.Data;
 import lombok.Getter;

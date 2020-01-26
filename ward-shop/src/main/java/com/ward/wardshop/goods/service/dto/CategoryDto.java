@@ -1,4 +1,4 @@
-package com.ward.wardshop.goods.domain;
+package com.ward.wardshop.goods.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
