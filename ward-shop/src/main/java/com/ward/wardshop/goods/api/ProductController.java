@@ -32,7 +32,7 @@ public class ProductController {
         return productService.update(idx, form, imgFile);
     }
 
-    @DeleteMapping("/idx")
+    @DeleteMapping("/{idx}")
     public void deleteProduct(@PathVariable Long idx) throws IOException {
         productService.delete(idx);
     }
