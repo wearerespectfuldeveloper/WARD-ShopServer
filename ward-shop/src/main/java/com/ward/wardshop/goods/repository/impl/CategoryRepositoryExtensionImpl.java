@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ward.wardshop.goods.domain.Category;
 import com.ward.wardshop.goods.repository.CategoryRepositoryExtension;
+import com.ward.wardshop.goods.repository.dto.CategoryQueryDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

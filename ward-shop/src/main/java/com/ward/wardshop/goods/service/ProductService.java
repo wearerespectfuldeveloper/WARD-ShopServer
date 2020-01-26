@@ -8,6 +8,8 @@ import com.ward.wardshop.goods.domain.Category;
 import com.ward.wardshop.goods.domain.product.Product;
 import com.ward.wardshop.goods.repository.CategoryRepository;
 import com.ward.wardshop.goods.repository.ProductRepository;
+import com.ward.wardshop.goods.service.dto.ProductDto;
+import com.ward.wardshop.goods.service.dto.request.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +32,29 @@ public class ProductService {
     private final ImageManager imageManager;
 
     private static final String PRODUCT_PATH = "product/";
+
+    @Transactional(readOnly = true)
+    public List<ProductDto> getProductList(ProductRequest productRequest) {
+        List<Product> products = productRepository.getProductByCreatedDateDesc(
+                productRequest.getCategoryIdx(),
+                productRequest.getCreatedDate()
+        );
+
+        return convertToDto(products);
+    }
+
+    private List<ProductDto> convertToDto(List<Product> products) {
+        return products.stream()
+                .map(p -> ProductDto.builder()
+                        .idx(p.getIdx())
+                        .name(p.getName())
+                        .description(p.getDescription())
+                        .imageResource(p.getImageResource())
+                        .price(p.getPrice())
+                        .createdDate(p.getCreatedDate())
+                        .build())
+                .collect(toList());
+    }
 
     @Transactional
     public Long create(ProductForm productForm, MultipartFile multipartFile) throws IOException {

@@ -1,4 +1,4 @@
-package com.ward.wardshop.goods.repository.impl;
+package com.ward.wardshop.goods.repository.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

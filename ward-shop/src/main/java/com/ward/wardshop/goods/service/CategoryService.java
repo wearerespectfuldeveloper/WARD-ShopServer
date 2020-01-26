@@ -3,7 +3,7 @@ package com.ward.wardshop.goods.service;
 import com.ward.wardshop.goods.domain.Category;
 import com.ward.wardshop.goods.service.dto.CategoryDto;
 import com.ward.wardshop.goods.repository.CategoryRepository;
-import com.ward.wardshop.goods.repository.impl.CategoryQueryDto;
+import com.ward.wardshop.goods.repository.dto.CategoryQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -3,6 +3,8 @@ package com.ward.wardshop.goods.api;
 import com.ward.wardshop.goods.api.model.ProductForm;
 import com.ward.wardshop.goods.api.model.ProductUpdateForm;
 import com.ward.wardshop.goods.service.ProductService;
+import com.ward.wardshop.goods.service.dto.ProductDto;
+import com.ward.wardshop.goods.service.dto.request.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -17,6 +21,16 @@ import java.io.IOException;
 public class ProductController {
 
     private final ProductService productService;
+
+    @GetMapping
+    public List<ProductDto> getProduct(ProductRequest productRequest) {
+        return productService.getProductList(productRequest);
+    }
+
+    @GetMapping("/tt")
+    public LocalDateTime whatTime() {
+        return LocalDateTime.now();
+    }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Long createProduct(@Valid ProductForm productForm, MultipartFile imgFile) throws IOException {
