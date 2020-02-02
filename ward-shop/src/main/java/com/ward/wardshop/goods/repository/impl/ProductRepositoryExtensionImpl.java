@@ -23,24 +23,28 @@ public class ProductRepositoryExtensionImpl implements ProductRepositoryExtensio
     public List<Product> getProductByCreatedDateDesc(Long categoryIdx, LocalDateTime createdDate) {
         return query.selectFrom(product)
                 .where(
-                        getProductSearchCondition(categoryIdx, createdDate)
+                        eqCategoryIdx(categoryIdx),
+                        beforeCreatedDate(createdDate),
+                        product.productStatus.eq(ProductStatus.ON_SALE)
                 )
                 .orderBy(product.createdDate.desc())
                 .limit(20L)
                 .fetch();
     }
 
-    private Predicate[] getProductSearchCondition(Long categoryIdx, LocalDateTime createdDate) {
-
-        List<Predicate> predicates = Arrays.asList(
-                product.category.idx.eq(categoryIdx),
-                product.productStatus.eq(ProductStatus.ON_SALE)
-        );
-
-        if (Objects.nonNull(createdDate)) {
-            predicates.add(product.createdDate.before(createdDate));
+    private Predicate eqCategoryIdx(Long categoryIdx) {
+        if (Objects.isNull(categoryIdx)) {
+            return null;
         }
 
-        return (Predicate[]) predicates.toArray();
+        return product.category.idx.eq(categoryIdx);
+    }
+
+    private Predicate beforeCreatedDate(LocalDateTime createdDate) {
+        if (Objects.isNull(createdDate)) {
+            return null;
+        }
+
+        return product.createdDate.before(createdDate);
     }
 }
