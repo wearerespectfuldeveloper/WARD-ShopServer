@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .headers().frameOptions().disable();
     }
 
     private boolean isLocalMode() {
@@ -35,19 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private void setLocalMode(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .headers().frameOptions().disable();
+                .anyRequest().authenticated();
     }
 
     private void setProdMode(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers("/simple",
+                .antMatchers("/**", //개발 편의성을 위해 임시로 개방
+                        "/simple",
                         "/v2/api-docs",
                         "/configuration/**",
                         "/swagger*/**",
                         "/webjars/**")
                 .permitAll()
-                .antMatchers("/**").authenticated();
+                .anyRequest().authenticated();
     }
 }

@@ -28,8 +28,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Result createCategory(@RequestBody String categoryName) {
-        Long categoryIdx = categoryService.createCategory(categoryName);
+    public Result createCategory(@RequestBody CategoryNameForm categoryName) {
+        Long categoryIdx = categoryService.createCategory(categoryName.getCategoryName());
 
         Result result = new Result();
         result.setIdx(categoryIdx);
