@@ -1,14 +1,12 @@
 package com.ward.wardshop.goods.domain.product;
 
-import com.ward.wardshop.common.audit.BaseEntity;
-
 import javax.persistence.*;
 
 /**
  * URL : www.comsdaf.com
  */
 @Entity
-public class ProductDetailComponent extends BaseEntity {
+public class ProductDetailComponent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +23,25 @@ public class ProductDetailComponent extends BaseEntity {
     private String data;
 
     @Column(nullable = false)
-    private Integer ordering;
+    private Integer sequence;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_idx")
     private Product product;
+
+    public Long getIdx() {
+        return idx;
+    }
+
+    public ComponentType getComponentType() {
+        return componentType;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
 }
