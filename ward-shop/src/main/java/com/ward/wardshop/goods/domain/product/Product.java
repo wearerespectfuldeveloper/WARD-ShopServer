@@ -73,6 +73,7 @@ public class Product extends BaseEntity {
         this.description = form.getDescription();
         this.price = form.getPrice();
         this.stockQuantity = form.getStockQuantity();
+        this.productStatus = form.getStatus();
     }
 
     public void addOption(ProductOption option) {

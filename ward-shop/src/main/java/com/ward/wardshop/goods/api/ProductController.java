@@ -27,11 +27,6 @@ public class ProductController {
         return productService.getProductList(productRequest);
     }
 
-    @GetMapping("/tt")
-    public LocalDateTime whatTime() {
-        return LocalDateTime.now();
-    }
-
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Long createProduct(@Valid ProductForm productForm, MultipartFile imgFile) throws IOException {
 
