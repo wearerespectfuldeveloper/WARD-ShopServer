@@ -23,7 +23,17 @@ public class ProductOption {
     @JoinColumn(name = "product_idx")
     private Product product;
 
+    public ProductOption(String name, Integer price, Integer sequence) {
+        this.name = name;
+        this.price = price;
+        this.sequence = sequence;
+    }
+
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Long getIdx() {
+        return idx;
     }
 }
