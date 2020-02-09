@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -37,6 +39,9 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_idx")
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductOption> options = new ArrayList<>();
 
     @Builder
     public Product(String name,
@@ -68,5 +73,10 @@ public class Product extends BaseEntity {
         this.description = form.getDescription();
         this.price = form.getPrice();
         this.stockQuantity = form.getStockQuantity();
+    }
+
+    public void addOption(ProductOption option) {
+        this.options.add(option);
+        option.setProduct(this);
     }
 }
