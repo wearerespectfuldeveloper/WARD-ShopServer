@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
+import com.ward.wardshop.goods.domain.product.ProductStatus;
+
 @Getter
 @NoArgsConstructor
 public class ProductUpdateForm {
@@ -18,4 +20,7 @@ public class ProductUpdateForm {
     private Integer price;
 
     private Integer stockQuantity;
+    
+    @NotNull
+    private ProductStatus status;
 }
