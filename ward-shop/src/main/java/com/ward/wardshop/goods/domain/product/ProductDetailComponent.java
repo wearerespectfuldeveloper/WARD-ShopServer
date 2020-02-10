@@ -44,4 +44,8 @@ public class ProductDetailComponent {
     public Integer getSequence() {
         return sequence;
     }
+
+    public void addSequence(int val) {
+        this.sequence += val;
+    }
 }
