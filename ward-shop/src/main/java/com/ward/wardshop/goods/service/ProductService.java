@@ -112,6 +112,8 @@ public class ProductService {
     }
 
     private void deleteImage(Product product) throws IOException {
-        imageManager.deleteImg(product.getImageResource());
+        if (Objects.nonNull(product.getImageResource())) {
+            imageManager.deleteImg(product.getImageResource());
+        }
     }
 }
