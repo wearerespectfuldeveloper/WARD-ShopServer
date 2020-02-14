@@ -52,9 +52,34 @@ public class ProductDetailComponentService {
         }
     }
 
+    @Transactional
+    public void moveComponent(Long productIdx, Long componentIdx, Integer sequence) {
+        List<ProductDetailComponent> components = repository.findComponentsByProductIdx(productIdx);
+        ProductDetailComponent targetComponent = repository.findById(componentIdx)
+                .orElseThrow(IllegalArgumentException::new);
+
+        if (isRaiseRequest(targetComponent.getSequence(), sequence)) {
+            addSequenceComponentsArea(components, sequence, targetComponent.getSequence(), 1);
+        } else {
+            addSequenceComponentsArea(components, targetComponent.getSequence() + 1, sequence, -1);
+        }
+
+        targetComponent.changeSequence(sequence);
+    }
+
+    private boolean isRaiseRequest(Integer target, Integer dest) {
+        return target > dest;
+    }
+
     private void raiseComponentsBelow(int sequence, List<ProductDetailComponent> components) {
         components.stream()
                 .filter(c -> c.getSequence() > sequence)
                 .forEach(c -> c.addSequence(-1));
+    }
+
+    private void addSequenceComponentsArea(List<ProductDetailComponent> components, int start, int end, int val) {
+        components.stream()
+                .filter(c -> c.getSequence() >= start && c.getSequence() < end)
+                .forEach(c -> c.addSequence(val));
     }
 }

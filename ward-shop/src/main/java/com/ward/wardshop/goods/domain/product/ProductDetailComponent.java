@@ -48,4 +48,8 @@ public class ProductDetailComponent {
     public void addSequence(int val) {
         this.sequence += val;
     }
+
+    public void changeSequence(int sequence) {
+        this.sequence = sequence;
+    }
 }
