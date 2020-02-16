@@ -40,6 +40,11 @@ public class ProductController {
         return productService.update(idx, form, imgFile);
     }
 
+    @PutMapping("/{idx}")
+    public Long setOnSale(@PathVariable Long idx) {
+        return productService.setOnSale(idx);
+    }
+
     @DeleteMapping("/{idx}")
     public void deleteProduct(@PathVariable Long idx) throws IOException {
         productService.delete(idx);

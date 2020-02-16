@@ -6,6 +6,7 @@ import com.ward.wardshop.goods.api.model.ProductForm;
 import com.ward.wardshop.goods.api.model.ProductUpdateForm;
 import com.ward.wardshop.goods.domain.Category;
 import com.ward.wardshop.goods.domain.product.Product;
+import com.ward.wardshop.goods.domain.product.ProductStatus;
 import com.ward.wardshop.goods.repository.CategoryRepository;
 import com.ward.wardshop.goods.repository.ProductRepository;
 import com.ward.wardshop.goods.service.dto.ProductDto;
@@ -95,6 +96,14 @@ public class ProductService {
 
         deleteImage(deletedProduct);
         productRepository.delete(deletedProduct);
+    }
+
+    @Transactional
+    public Long setOnSale(Long idx) {
+        Product product = productRepository.findById(idx).orElseThrow(EntityNotFoundException::new);
+
+        product.changeStatus(ProductStatus.ON_SALE);
+        return product.getIdx();
     }
 
     private Product createProductEntityWithCategory(ProductForm productForm, Category category) {
