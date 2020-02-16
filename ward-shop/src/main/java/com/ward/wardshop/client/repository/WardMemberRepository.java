@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WardMemberRepository
         extends JpaRepository<WardMember, Long> {
-    WardMember findByEmail(String email);
+    WardMember findByUserId(String username);
 }

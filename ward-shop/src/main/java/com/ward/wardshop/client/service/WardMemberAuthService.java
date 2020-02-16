@@ -17,8 +17,8 @@ public class WardMemberAuthService implements UserDetailsService {
     private final WardMemberRepository wardMemberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        WardMember member = wardMemberRepository.findByEmail(username);
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        WardMember member = wardMemberRepository.findByUserId(userId);
 
         if (Objects.isNull(member)) {
             throw new UsernameNotFoundException("유저의 이메일이 존재하지 않습니다.");

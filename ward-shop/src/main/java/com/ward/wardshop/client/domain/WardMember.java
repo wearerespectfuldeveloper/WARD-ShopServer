@@ -23,6 +23,9 @@ public class WardMember extends BaseEntity implements UserDetails {
     private Long idx;
 
     @Column(nullable = false, length = 50)
+    private String userId;
+
+    @Column(nullable = false, length = 50)
     private String email;
 
     @Column(nullable = false, length = 200)
