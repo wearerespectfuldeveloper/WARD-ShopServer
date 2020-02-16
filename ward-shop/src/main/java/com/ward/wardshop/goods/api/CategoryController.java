@@ -39,7 +39,7 @@ public class CategoryController {
 
     @PutMapping("/{idx}/name")
     public ResponseEntity<String> changeCategoryName(@PathVariable Long idx,
-                                                     CategoryNameForm form) {
+                                                     @RequestBody CategoryNameForm form) {
         categoryService.changeCategoryName(idx, form.getCategoryName());
 
         return new ResponseEntity<>("success", HttpStatus.OK);
