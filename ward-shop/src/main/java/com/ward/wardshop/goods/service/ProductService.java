@@ -1,7 +1,7 @@
 package com.ward.wardshop.goods.service;
 
-import com.ward.wardshop.common.module.ImageManager;
-import com.ward.wardshop.common.module.impl.FilenameResolver;
+import com.ward.wardshop.common.module.image.ImageManager;
+import com.ward.wardshop.common.module.image.impl.FilenameResolver;
 import com.ward.wardshop.goods.api.model.ProductForm;
 import com.ward.wardshop.goods.api.model.ProductUpdateForm;
 import com.ward.wardshop.goods.domain.Category;
@@ -20,7 +20,6 @@ import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 

@@ -38,6 +38,10 @@ logging:
         SQL: trace
         type: trace
 
+jwt:
+  secret: ward
+  expiration: 21600000
+
 
 ---
 spring:
@@ -70,6 +74,10 @@ logging:
       hibernate:
         SQL: warn
         type: warn
+
+jwt:
+  secret: ward
+  expiration: 21600000
 
 server:
   port: 80

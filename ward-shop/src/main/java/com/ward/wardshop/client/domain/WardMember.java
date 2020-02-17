@@ -1,6 +1,7 @@
 package com.ward.wardshop.client.domain;
 
 import com.ward.wardshop.common.audit.BaseEntity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +15,7 @@ import java.util.Collections;
  * Validation 관련 애너테이션은 엔티티에 포함시키지 않도록 한다. 아래의 링크를 참조
  * https://jojoldu.tistory.com/129
  */
+@Getter
 @NoArgsConstructor
 @Entity
 public class WardMember extends BaseEntity implements UserDetails {

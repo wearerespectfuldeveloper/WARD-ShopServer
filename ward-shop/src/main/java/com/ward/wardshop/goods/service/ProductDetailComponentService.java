@@ -1,6 +1,6 @@
 package com.ward.wardshop.goods.service;
 
-import com.ward.wardshop.common.module.ImageManager;
+import com.ward.wardshop.common.module.image.ImageManager;
 import com.ward.wardshop.goods.domain.product.ComponentType;
 import com.ward.wardshop.goods.domain.product.ProductDetailComponent;
 import com.ward.wardshop.goods.repository.ProductDetailComponentRepository;
