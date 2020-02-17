@@ -1,11 +1,11 @@
-package com.ward.wardshop.common.module.impl;
+package com.ward.wardshop.common.module.image.impl;
 
 
 import com.google.cloud.storage.Acl;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
-import com.ward.wardshop.common.module.ImageManager;
+import com.ward.wardshop.common.module.image.ImageManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;

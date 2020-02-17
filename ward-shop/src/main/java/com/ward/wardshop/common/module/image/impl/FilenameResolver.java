@@ -1,4 +1,4 @@
-package com.ward.wardshop.common.module.impl;
+package com.ward.wardshop.common.module.image.impl;
 
 import org.apache.commons.io.FilenameUtils;
 

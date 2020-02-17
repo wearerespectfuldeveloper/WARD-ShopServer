@@ -1,6 +1,6 @@
-package com.ward.wardshop.common.module.impl;
+package com.ward.wardshop.common.module.image.impl;
 
-import com.ward.wardshop.common.module.ImageManager;
+import com.ward.wardshop.common.module.image.ImageManager;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("local")
 @ExtendWith(SpringExtension.class)

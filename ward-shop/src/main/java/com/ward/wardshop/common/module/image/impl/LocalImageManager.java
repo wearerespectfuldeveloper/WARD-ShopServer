@@ -1,6 +1,6 @@
-package com.ward.wardshop.common.module.impl;
+package com.ward.wardshop.common.module.image.impl;
 
-import com.ward.wardshop.common.module.ImageManager;
+import com.ward.wardshop.common.module.image.ImageManager;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,4 +1,4 @@
-package com.ward.wardshop.common.module;
+package com.ward.wardshop.common.module.image;
 
 import org.springframework.web.multipart.MultipartFile;
 
