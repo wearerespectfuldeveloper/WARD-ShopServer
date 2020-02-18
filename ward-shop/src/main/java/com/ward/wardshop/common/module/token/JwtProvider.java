@@ -1,4 +1,4 @@
-package com.ward.wardshop.client.security;
+package com.ward.wardshop.common.module.token;
 
 import com.ward.wardshop.client.domain.WardMember;
 import io.jsonwebtoken.Claims;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
@@ -30,21 +31,21 @@ public class JwtProvider {
         return generateToken(claims);
     }
 
-    private static class JwtSpec {
-        private static String SUB = "wardMember";
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
 
-        private static String IDX = "idx";
-        private static String USER_ID = "userId";
-        private static String EMAIL = "email";
-        private static String AUTH = "auth";
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     private Claims createClaims(WardMember wardMember) {
-        Claims claims = Jwts.claims().setSubject(JwtSpec.SUB);
-        claims.put(JwtSpec.IDX, wardMember.getIdx());
-        claims.put(JwtSpec.USER_ID, wardMember.getUserId());
-        claims.put(JwtSpec.EMAIL, wardMember.getEmail());
-        claims.put(JwtSpec.AUTH, wardMember.getAuthorities());
+        Claims claims = Jwts.claims().setSubject(JwtConstants.SUB);
+        claims.put(JwtConstants.IDX, wardMember.getIdx());
+        claims.put(JwtConstants.USER_ID, wardMember.getUserId());
+        claims.put(JwtConstants.EMAIL, wardMember.getEmail());
+        claims.put(JwtConstants.AUTH, wardMember.getAuthorities());
 
         return claims;
     }
