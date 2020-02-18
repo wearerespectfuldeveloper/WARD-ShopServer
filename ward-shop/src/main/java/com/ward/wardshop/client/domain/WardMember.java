@@ -42,6 +42,16 @@ public class WardMember extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private MemberAuthority memberAuthority;
 
+    private WardMember(Long idx, String userId, MemberAuthority memberAuthority) {
+        this.idx = idx;
+        this.userId = userId;
+        this.memberAuthority = memberAuthority;
+    }
+
+    public static WardMember getEntityForAuth(Long idx, String userId, MemberAuthority memberAuthority) {
+        return new WardMember(idx, userId, memberAuthority);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(memberAuthority.name()));
