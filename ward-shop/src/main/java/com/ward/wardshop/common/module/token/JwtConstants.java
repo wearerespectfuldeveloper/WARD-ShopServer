@@ -5,6 +5,5 @@ public class JwtConstants {
 
     public static String IDX = "idx";
     public static String USER_ID = "userId";
-    public static String EMAIL = "email";
     public static String AUTH = "auth";
 }

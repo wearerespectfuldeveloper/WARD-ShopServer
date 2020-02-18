@@ -44,7 +44,6 @@ public class JwtProvider {
         Claims claims = Jwts.claims().setSubject(JwtConstants.SUB);
         claims.put(JwtConstants.IDX, wardMember.getIdx());
         claims.put(JwtConstants.USER_ID, wardMember.getUserId());
-        claims.put(JwtConstants.EMAIL, wardMember.getEmail());
         claims.put(JwtConstants.AUTH, wardMember.getAuthorities());
 
         return claims;
