@@ -26,12 +26,30 @@ public class JwtProvider {
     }
 
     public String generateToken(WardMember wardMember) {
+        Claims claims = createClaims(wardMember);
+        return generateToken(claims);
+    }
+
+    private static class JwtSpec {
+        private static String SUB = "wardMember";
+
+        private static String IDX = "idx";
+        private static String USER_ID = "userId";
+        private static String EMAIL = "email";
+        private static String AUTH = "auth";
+    }
+
+    private Claims createClaims(WardMember wardMember) {
         Claims claims = Jwts.claims().setSubject(JwtSpec.SUB);
         claims.put(JwtSpec.IDX, wardMember.getIdx());
         claims.put(JwtSpec.USER_ID, wardMember.getUserId());
         claims.put(JwtSpec.EMAIL, wardMember.getEmail());
         claims.put(JwtSpec.AUTH, wardMember.getAuthorities());
 
+        return claims;
+    }
+
+    private String generateToken(Claims claims) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + jwtExpiration);
 
@@ -41,13 +59,5 @@ public class JwtProvider {
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
-    }
-
-    private static class JwtSpec {
-        private static String SUB = "wardMember";
-        private static String IDX = "idx";
-        private static String USER_ID = "userId";
-        private static String EMAIL = "email";
-        private static String AUTH = "auth";
     }
 }
