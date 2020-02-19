@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtProvider {
@@ -26,18 +27,20 @@ public class JwtProvider {
         jwtSecret = Base64.getEncoder().encodeToString(jwtSecret.getBytes());
     }
 
-    public String generateToken(WardMember wardMember) {
+    public WardJwtToken generateToken(WardMember wardMember) {
         Claims claims = createClaims(wardMember);
         return generateToken(claims);
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    public Optional<WardJwtToken> resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+            String jwtToken = bearerToken.substring(7);
+
+            return Optional.of(new WardJwtToken(jwtToken, jwtSecret));
         }
-        return null;
+        return Optional.empty();
     }
 
     private Claims createClaims(WardMember wardMember) {
@@ -49,15 +52,17 @@ public class JwtProvider {
         return claims;
     }
 
-    private String generateToken(Claims claims) {
+    private WardJwtToken generateToken(Claims claims) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + jwtExpiration);
 
-        return Jwts.builder()
+        String jwtToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
+
+        return new WardJwtToken(jwtToken, jwtSecret);
     }
 }
