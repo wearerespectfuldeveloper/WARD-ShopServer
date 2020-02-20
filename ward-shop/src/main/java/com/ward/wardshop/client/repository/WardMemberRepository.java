@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WardMemberRepository
         extends JpaRepository<WardMember, Long> {
-    WardMember findByUserId(String username);
+    WardMember findByUserId(String userId);
+    Boolean existsWardMemberByUserId(String userId);
 }

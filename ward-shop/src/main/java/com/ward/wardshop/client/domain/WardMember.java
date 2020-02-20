@@ -42,10 +42,23 @@ public class WardMember extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private MemberAuthority memberAuthority;
 
+    private WardMember(String userId, String email, String password, String memberName, String phoneNumber) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.memberName = memberName;
+        this.phoneNumber = phoneNumber;
+        this.memberAuthority = MemberAuthority.ROLE_NON_AUTH_MEMBER;
+    }
+
     private WardMember(Long idx, String userId, MemberAuthority memberAuthority) {
         this.idx = idx;
         this.userId = userId;
         this.memberAuthority = memberAuthority;
+    }
+
+    public static WardMember createNewWardMember(String userId, String email, String password, String memberName, String phoneNumber) {
+        return new WardMember(userId, email, password, memberName, phoneNumber);
     }
 
     public static WardMember getEntityForAuth(Long idx, String userId, MemberAuthority memberAuthority) {
