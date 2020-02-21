@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -63,6 +64,10 @@ public class WardMember extends BaseEntity implements UserDetails {
 
     public static WardMember getEntityForAuth(Long idx, String userId, MemberAuthority memberAuthority) {
         return new WardMember(idx, userId, memberAuthority);
+    }
+
+    public void encryptPassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
     }
 
     @Override

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.Objects;
 public class WardMemberAuthService implements UserDetailsService {
 
     private final WardMemberRepository wardMemberRepository;
+    private final PasswordEncoder passwordEncoder;
     private final EmailAuthKeyRepository emailAuthKeyRepository;
 
     @Override
@@ -41,6 +43,7 @@ public class WardMemberAuthService implements UserDetailsService {
             throw new EntityExistsException("이미 존재하는 아이디 입니다.");
         }
 
+        newMember.encryptPassword(passwordEncoder);
         wardMemberRepository.save(newMember);
         generateEmailAuthKey(newMember);
 
