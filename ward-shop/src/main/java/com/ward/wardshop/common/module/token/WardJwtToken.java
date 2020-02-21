@@ -25,6 +25,10 @@ public class WardJwtToken {
         return new UsernamePasswordAuthenticationToken(authEntity, "", authEntity.getAuthorities());
     }
 
+    public String getAccessToken() {
+        return "Bearer " + accessToken;
+    }
+
     private Claims getClaims() {
         return Jwts.parser()
                 .setSigningKey(jwtSecret)

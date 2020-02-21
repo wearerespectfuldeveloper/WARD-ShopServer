@@ -70,6 +70,10 @@ public class WardMember extends BaseEntity implements UserDetails {
         this.password = passwordEncoder.encode(this.password);
     }
 
+    public boolean passwordCheck(PasswordEncoder passwordEncoder, String password) {
+        return passwordEncoder.matches(password, this.password);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(memberAuthority.name()));
