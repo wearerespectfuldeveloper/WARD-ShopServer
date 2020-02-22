@@ -13,4 +13,9 @@ public class SimpleController {
         log.info("jenkins-test-2");
         return "Hello, This is Ward Server.";
     }
+
+    @GetMapping("/abcd")
+    public String abcd() {
+        return "방금 만들었음";
+    }
 }
