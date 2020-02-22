@@ -1,6 +1,19 @@
 package com.ward.wardshop.goods.domain.product;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.ward.wardshop.goods.domain.Category;
+
+import lombok.Builder;
 
 /**
  * URL : www.comsdaf.com
@@ -28,6 +41,13 @@ public class ProductDetailComponent {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_idx")
     private Product product;
+
+    @Builder
+    public ProductDetailComponent(String data,
+                Integer sequence) {
+        this.data = data;
+        this.sequence = sequence;
+    }
 
     public Long getIdx() {
         return idx;

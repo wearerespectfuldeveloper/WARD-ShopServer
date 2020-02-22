@@ -1,18 +1,28 @@
 package com.ward.wardshop.goods.service;
 
-import com.ward.wardshop.common.module.image.ImageManager;
-import com.ward.wardshop.goods.domain.product.ComponentType;
-import com.ward.wardshop.goods.domain.product.ProductDetailComponent;
-import com.ward.wardshop.goods.repository.ProductDetailComponentRepository;
-import com.ward.wardshop.goods.service.dto.ComponentDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
-import static java.util.stream.Collectors.toList;
+import javax.persistence.EntityNotFoundException;
+
+import com.ward.wardshop.common.module.image.ImageManager;
+import com.ward.wardshop.goods.api.model.ProductDetailForm;
+import com.ward.wardshop.goods.api.model.ProductForm;
+import com.ward.wardshop.goods.api.model.ProductUpdateForm;
+import com.ward.wardshop.goods.domain.product.ComponentType;
+import com.ward.wardshop.goods.domain.product.Product;
+import com.ward.wardshop.goods.domain.product.ProductDetailComponent;
+import com.ward.wardshop.goods.repository.ProductDetailComponentRepository;
+import com.ward.wardshop.goods.service.dto.ComponentDto;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
@@ -67,6 +77,40 @@ public class ProductDetailComponentService {
         targetComponent.changeSequence(sequence);
     }
 
+    // 상품 상세 정보 생성하기 - 2020-02-16 최인선 - 수정중
+    @Transactional
+    public Long createComponent(Long productIdx, ProductDetailForm productDetailForm, MultipartFile multipartFile) throws IOException {
+        List<ProductDetailComponent> components = repository.findComponentsByProductIdx(productIdx);
+
+       ProductDetailComponent createProductDetail = createProductDetailWithProduct(productDetailForm, components);
+        /*
+        if (Objects.nonNull(multipartFile)) {
+            newProduct.createImageResource(saveImage(multipartFile));
+        }
+
+        productRepository.save(newProduct);
+        return newProduct.getIdx();*/
+        
+        return (long) 1;
+    }
+    // 상품 상세 정보 수정하기 - 2020-02-16 최인선 - 수정중
+    @Transactional
+    public Long updateComponent(Long productIdx, Long componentIdx,
+                       ProductUpdateForm form,
+                       MultipartFile multipartFile) throws IOException {
+        Product updatedProduct = productRepository.findById(idx)
+                .orElseThrow(EntityNotFoundException::new);
+
+        updatedProduct.updateData(form);
+
+        if (Objects.nonNull(multipartFile)) {
+            //deleteImage(updatedProduct);
+            //updatedProduct.createImageResource(saveImage(multipartFile));
+        }
+
+        return updatedProduct.getIdx();
+    }
+
     private boolean isRaiseRequest(Integer target, Integer dest) {
         return target > dest;
     }
@@ -81,5 +125,9 @@ public class ProductDetailComponentService {
         components.stream()
                 .filter(c -> c.getSequence() >= start && c.getSequence() < end)
                 .forEach(c -> c.addSequence(val));
+    }
+
+    private ProductDetailComponent createProductDetailWithProduct(ProductDetailForm productDetailForm, List<ProductDetailComponent> components){
+        ProductDetailForm newProductDetail =  productDetailForm.toEntity();
     }
 }

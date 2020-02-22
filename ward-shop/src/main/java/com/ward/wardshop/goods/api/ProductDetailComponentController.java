@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.ward.wardshop.goods.api.model.ProductForm;
+import com.ward.wardshop.goods.api.model.ProductDetailForm;
 import com.ward.wardshop.goods.api.model.ProductUpdateForm;
 import com.ward.wardshop.goods.service.ProductDetailComponentService;
 import com.ward.wardshop.goods.service.dto.ComponentDto;
@@ -36,10 +36,11 @@ public class ProductDetailComponentController {
         return productDetailComponentService.getProductDetailComponents(productIdx);
     }
 
+    // 상품 상세 정보 등록하기 - 2020-02-22 최인선
     @PostMapping(path="/product/{productIdx}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public Long createComponent(@Valid ProductForm productForm, MultipartFile imgFile, Long productIdx) throws IOException {
+    public Long createComponent(@Valid Long productIdx, ProductDetailForm productDetailForm, MultipartFile imgFile) throws IOException {
 
-        return productDetailComponentService.createComponent(productIdx, productForm, imgFile);
+        return productDetailComponentService.createComponent(productIdx, productDetailForm, imgFile);
     }
 
     @PutMapping("/product/{productIdx}/components/{componentIdx}")
@@ -50,12 +51,14 @@ public class ProductDetailComponentController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    // 상품 상세 정보 수정하기 - 2020-02-22 최인선
     @PutMapping(value = "/product/{productIdx}/components/{componentIdx}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Long updateComponent(
             @PathVariable Long productIdx,
-            @Valid ProductUpdateForm form,
+            @PathVariable Long componentIdx,
+            @Valid ProductUpdateForm updateForm,
             MultipartFile imgFile) throws IOException {
-        return productDetailComponentService.updateComponent(productIdx, form, imgFile);
+        return productDetailComponentService.updateComponent(componentIdx, productIdx, updateForm, imgFile);
     }
 
     @DeleteMapping("/product/{productIdx}/components/{componentIdx}")
