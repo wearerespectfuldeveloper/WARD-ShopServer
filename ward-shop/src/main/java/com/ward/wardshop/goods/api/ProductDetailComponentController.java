@@ -52,10 +52,10 @@ public class ProductDetailComponentController {
 
      @PutMapping(value = "/product/{productIdx}/components/{componentIdx}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
      public Long updateComponent(
-             @PathVariable Long idx,
+             @PathVariable Long productIdx,
              @Valid ProductUpdateForm form,
              MultipartFile imgFile) throws IOException {
-         return productDetailComponentService.updateComponent(idx, form, imgFile);
+         return productDetailComponentService.updateComponent(productIdx, form, imgFile);
      }
 
     @DeleteMapping("/product/{productIdx}/components/{componentIdx}")
