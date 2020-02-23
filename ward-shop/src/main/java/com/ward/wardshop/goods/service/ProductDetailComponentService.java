@@ -1,40 +1,38 @@
 package com.ward.wardshop.goods.service;
 
-import static java.util.stream.Collectors.toList;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import javax.persistence.EntityNotFoundException;
-
 import com.ward.wardshop.common.module.image.ImageManager;
 import com.ward.wardshop.goods.api.model.ProductDetailForm;
-import com.ward.wardshop.goods.api.model.ProductForm;
 import com.ward.wardshop.goods.api.model.ProductUpdateForm;
 import com.ward.wardshop.goods.domain.product.ComponentType;
 import com.ward.wardshop.goods.domain.product.Product;
 import com.ward.wardshop.goods.domain.product.ProductDetailComponent;
 import com.ward.wardshop.goods.repository.ProductDetailComponentRepository;
+import com.ward.wardshop.goods.repository.ProductRepository;
 import com.ward.wardshop.goods.service.dto.ComponentDto;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.RequiredArgsConstructor;
+import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Service
 public class ProductDetailComponentService {
 
-    private final ProductDetailComponentRepository repository;
+    private final ProductDetailComponentRepository productDetailComponentRepository;
+    private final ProductRepository productRepository;
     private final ImageManager imageManager;
 
     @Transactional(readOnly = true)
     public List<ComponentDto> getProductDetailComponents(Long productIdx) {
         List<ProductDetailComponent> components =
-                repository.findComponentsByProductIdx(productIdx);
+                productDetailComponentRepository.findComponentsByProductIdx(productIdx);
 
         return components.stream()
                 .map(component -> new ComponentDto(
@@ -48,14 +46,14 @@ public class ProductDetailComponentService {
 
     @Transactional
     public void removeComponent(Long productIdx, Long componentIdx) throws IOException {
-        List<ProductDetailComponent> components = repository.findComponentsByProductIdx(productIdx);
+        List<ProductDetailComponent> components = productDetailComponentRepository.findComponentsByProductIdx(productIdx);
 
-        ProductDetailComponent deletedComponent = repository.findById(componentIdx)
+        ProductDetailComponent deletedComponent = productDetailComponentRepository.findById(componentIdx)
                 .orElseThrow(IllegalArgumentException::new);
 
         raiseComponentsBelow(deletedComponent.getSequence(), components);
 
-        repository.delete(deletedComponent);
+        productDetailComponentRepository.delete(deletedComponent);
 
         if (deletedComponent.getComponentType().equals(ComponentType.IMAGE)) {
             imageManager.deleteImg(deletedComponent.getData());
@@ -64,8 +62,8 @@ public class ProductDetailComponentService {
 
     @Transactional
     public void moveComponent(Long productIdx, Long componentIdx, Integer sequence) {
-        List<ProductDetailComponent> components = repository.findComponentsByProductIdx(productIdx);
-        ProductDetailComponent targetComponent = repository.findById(componentIdx)
+        List<ProductDetailComponent> components = productDetailComponentRepository.findComponentsByProductIdx(productIdx);
+        ProductDetailComponent targetComponent = productDetailComponentRepository.findById(componentIdx)
                 .orElseThrow(IllegalArgumentException::new);
 
         if (isRaiseRequest(targetComponent.getSequence(), sequence)) {
@@ -80,9 +78,10 @@ public class ProductDetailComponentService {
     // 상품 상세 정보 생성하기 - 2020-02-16 최인선 - 수정중
     @Transactional
     public Long createComponent(Long productIdx, ProductDetailForm productDetailForm, MultipartFile multipartFile) throws IOException {
-        List<ProductDetailComponent> components = repository.findComponentsByProductIdx(productIdx);
+        List<ProductDetailComponent> components = productDetailComponentRepository.findComponentsByProductIdx(productIdx);
 
-       ProductDetailComponent createProductDetail = createProductDetailWithProduct(productDetailForm, components);
+        //todo 메서드를 이용하여 코드에 의미를 부여하는 코드는 가독성을 좋게 만드는 좋은 코드인 것 같아요!
+        ProductDetailComponent createProductDetail = createProductDetailWithProduct(productDetailForm, components);
         /*
         if (Objects.nonNull(multipartFile)) {
             newProduct.createImageResource(saveImage(multipartFile));

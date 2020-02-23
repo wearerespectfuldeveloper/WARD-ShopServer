@@ -17,12 +17,12 @@ public class ProductDetailForm {
     @NotNull
     private String name;
 
-    private String description;
+    private String description; //todo ProductDetail 의 컴포넌트는 description 이 필요없어 보여요!
 
     @NotNull
-    private Integer price;
+    private Integer price;      //todo 위의 description 과 마찬가지로 price 가 필요없어 보여요!
 
-    private Integer stockQuantity;
+    private Integer stockQuantity;  //todo 위의 description 과 마찬가지로 stockQuantity 는 필요없어 보여요!
     
     public ProductDetailForm(@NotNull Long productIdx, @NotNull String name, String description, @NotNull Integer price, Integer stockQuantity) {
         this.productIdx = productIdx;
@@ -32,6 +32,9 @@ public class ProductDetailForm {
         this.stockQuantity = stockQuantity;
     }
 
+    /*
+     *  //todo ProductDetailComponent 엔티티에는 description 과 price 필드가 필요 없을거라는 생각이 듭니다. :)
+     */
     public ProductDetailComponent toEntity() {
         return ProductDetailComponent.builder()
                 .data(name)
@@ -40,4 +43,13 @@ public class ProductDetailForm {
                 .stockQuantity(stockQuantity)
                 .build();
     }
+
+/*
+    public ProductDetailComponent toEntity() {
+        return ProductDetailComponent.builder()
+                .data(name)
+                .sequence(sequence)
+                .build();
+    }
+*/
 }

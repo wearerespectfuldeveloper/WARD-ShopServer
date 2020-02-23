@@ -14,10 +14,12 @@ import javax.persistence.ManyToOne;
 import com.ward.wardshop.goods.domain.Category;
 
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 /**
  * URL : www.comsdaf.com
  */
+@NoArgsConstructor
 @Entity
 public class ProductDetailComponent {
 

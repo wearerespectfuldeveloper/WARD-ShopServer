@@ -36,12 +36,23 @@ public class ProductDetailComponentController {
         return productDetailComponentService.getProductDetailComponents(productIdx);
     }
 
+    //todo 파라미터로 받는 productIdx 는 클라이언트로부터 받는 URI 값으로 주입받기 위해서는 @PathVariable 애너테이션을 이용해야 합니다!
+    //todo ProductDetailComponent 를 만들 때는 data 또는 업로드 파일, sequence 값이 필요하지 않을까 싶습니다.
     // 상품 상세 정보 등록하기 - 2020-02-22 최인선
     @PostMapping(path="/product/{productIdx}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Long createComponent(@Valid Long productIdx, ProductDetailForm productDetailForm, MultipartFile imgFile) throws IOException {
 
         return productDetailComponentService.createComponent(productIdx, productDetailForm, imgFile);
     }
+
+/*  저는 컨트롤러 부분을 이렇게 작성하고 싶어요! post 요청에서 마지막에 components uri 까지 입력 받음으로써 api 사용자는 컴포넌트를 만들어내는
+    api 라는 것을 명시적으로 알 수 있게 될 것 같아요.
+    @PostMapping(path="/product/{productIdx}/components", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public Long createComponent(@PathVariable Long productIdx, ProductDetailForm productDetailForm, MultipartFile imgFile) throws IOException {
+
+        return productDetailComponentService.createComponent(productIdx, productDetailForm, imgFile);
+    }
+*/
 
     @PutMapping("/product/{productIdx}/components/{componentIdx}")
     public ResponseEntity<String> moveComponent(@PathVariable Long productIdx,
