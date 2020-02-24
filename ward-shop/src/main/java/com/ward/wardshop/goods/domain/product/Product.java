@@ -10,6 +10,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -40,7 +41,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "category_idx")
     private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductOption> options = new ArrayList<>();
 
     @Builder
@@ -79,5 +80,18 @@ public class Product extends BaseEntity {
     public void addOption(ProductOption option) {
         this.options.add(option);
         option.setProduct(this);
+    }
+
+    public void deleteOption(Long productOptionId) {
+        options.removeIf(option -> option.getIdx().equals(productOptionId));
+    }
+
+    public void rearrangeOption() {
+        int i = 0;
+        this.options.sort(Comparator.comparing(ProductOption::getSequence));
+
+        for (ProductOption option : options) {
+            option.changeSequence(i++);
+        }
     }
 }

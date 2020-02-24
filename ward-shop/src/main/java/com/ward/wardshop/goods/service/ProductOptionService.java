@@ -27,4 +27,11 @@ public class ProductOptionService {
 
         return newOption.getIdx();
     }
+
+    @Transactional
+    public void deleteOption(Long productId, Long productOptionId) {
+        Product product = productRepository.findProductByIdFetchJoinOptions(productId);
+        product.deleteOption(productOptionId);
+        product.rearrangeOption();
+    }
 }

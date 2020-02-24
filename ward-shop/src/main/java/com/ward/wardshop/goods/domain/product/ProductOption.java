@@ -1,9 +1,11 @@
 package com.ward.wardshop.goods.domain.product;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @NoArgsConstructor
 @Entity
 public class ProductOption {
@@ -35,5 +37,9 @@ public class ProductOption {
 
     public Long getIdx() {
         return idx;
+    }
+
+    public void changeSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 }
