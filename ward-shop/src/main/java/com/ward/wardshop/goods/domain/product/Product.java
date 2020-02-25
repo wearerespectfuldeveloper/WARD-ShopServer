@@ -77,6 +77,10 @@ public class Product extends BaseEntity {
         this.productStatus = form.getStatus();
     }
 
+    public void rearrangeSequenceAfter(Integer sequence) {
+
+    }
+
     public void addOption(ProductOption option) {
         this.options.add(option);
         option.setProduct(this);

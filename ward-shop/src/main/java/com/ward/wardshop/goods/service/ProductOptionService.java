@@ -18,11 +18,11 @@ public class ProductOptionService {
 
     @Transactional
     public Long createOption(Long productIdx, CreateOptionForm form) {
-        Product product = productRepository.findById(productIdx)
-                .orElseThrow(IllegalArgumentException::new);
+        Product product = productRepository.findProductByIdFetchJoinOptions(productIdx);
+
+
 
         ProductOption newOption = new ProductOption(form.getName(), form.getPrice(), form.getSequence());
-
         product.addOption(newOption);
 
         return newOption.getIdx();
