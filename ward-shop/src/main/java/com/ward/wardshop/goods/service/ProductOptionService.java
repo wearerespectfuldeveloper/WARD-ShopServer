@@ -19,8 +19,7 @@ public class ProductOptionService {
     @Transactional
     public Long createOption(Long productIdx, CreateOptionForm form) {
         Product product = productRepository.findProductByIdFetchJoinOptions(productIdx);
-
-
+        product.rearrangeSequenceAfter(form.getSequence());
 
         ProductOption newOption = new ProductOption(form.getName(), form.getPrice(), form.getSequence());
         product.addOption(newOption);

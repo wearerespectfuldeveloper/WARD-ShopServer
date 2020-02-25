@@ -78,7 +78,9 @@ public class Product extends BaseEntity {
     }
 
     public void rearrangeSequenceAfter(Integer sequence) {
-
+        this.options.stream()
+                .filter(option -> option.getSequence() >= sequence)
+                .forEach(option -> option.changeSequence(option.getSequence() + 1));
     }
 
     public void addOption(ProductOption option) {
