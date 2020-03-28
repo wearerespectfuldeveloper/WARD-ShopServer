@@ -38,9 +38,6 @@ public class ProductDetailForm {
     public ProductDetailComponent toEntity() {
         return ProductDetailComponent.builder()
                 .data(name)
-                .description(description)
-                .price(price)
-                .stockQuantity(stockQuantity)
                 .build();
     }
 
