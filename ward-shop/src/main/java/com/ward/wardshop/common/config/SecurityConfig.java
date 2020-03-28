@@ -78,7 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private void setProdMode(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/**", //개발 편의성을 위해 임시로 개방
                         "/simple",
                         "/v2/api-docs",
